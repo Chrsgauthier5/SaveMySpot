@@ -1,0 +1,32 @@
+import React, { Component } from "react";
+import axios from "axios";
+
+export default class PokemonList extends Component {
+  state = {
+    pokemon: []
+  };
+
+  // This will hit our API using axios and set the resulting array to state
+  async componentDidMount() {
+    const { data } = await axios.get("/api/pokemon");
+    console.log(data);
+    this.setState({
+      pokemon: data
+    });
+  }
+
+  render() {
+    return (
+      <ul>
+        <h1>Landon's Pokemon!</h1>
+        {this.state.pokemon.map((poke, i) => (
+          <li key={i}>
+            <h2>{poke.name}</h2>
+            <p>Type: {poke.type}</p>
+            <p>Level: {poke.level}</p>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+}

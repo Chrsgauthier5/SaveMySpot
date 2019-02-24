@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Nav from "./components/Nav/index";
+import { Col, Row, Container } from "./components/Grid/index";
 
 export default class PokemonList extends Component {
   state = {
@@ -17,7 +19,9 @@ export default class PokemonList extends Component {
 
   render() {
     return (
-      <ul>
+      <div>
+        <Nav />
+        <Container fluid>
         <h1>Landon's Pokemon!</h1>
         {this.state.pokemon.map((poke, i) => (
           <li key={i}>
@@ -26,7 +30,8 @@ export default class PokemonList extends Component {
             <p>Level: {poke.level}</p>
           </li>
         ))}
-      </ul>
+        </Container>
+      </div>
     );
   }
 }

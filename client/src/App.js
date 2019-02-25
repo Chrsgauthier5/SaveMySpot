@@ -9,29 +9,36 @@ class App extends Component {
     const buttons = [
       {
         id: 1,
-        login: "Login",
-        display: true
+        name: "Home",
+        display: false,
+        link: "/",
+        color: "primary"
       },
       {
         id: 2,
-        signUp: "Sign Up",
-        display: true
+        name: "Login",
+        display: true,
+        link: "/login",
+        color: "info"
       },
       {
         id: 3,
-        home: "Home",
-        display: false
+        name: "Sign Up",
+        display: true,
+        link: "/signUp",
+        color: "warning"
       },
       {
         id: 4,
-        logout: "Logout",
-        display: false
+        name: "Logout",
+        display: false,
+        link: "/",
+        color: "danger"
       }
     ];
     return (
       
       <div>
-      this.prop 
       <Nav buttons={buttons}/>
       <Row>
         <Col size="md-6">

@@ -6,20 +6,32 @@ export class LoginPage extends Component {
   render() {
     const buttons = [
       {
-        login: "Login",
-        display: false
+        id: 1,
+        name: "Home",
+        display: true,
+        link: "/",
+        color: "primary"
       },
       {
-        signUp: "Sign Up",
-        display: true
+        id: 2,
+        name: "Login",
+        display: false,
+        link: "/login",
+        color: "info"
       },
       {
-        home: "Home",
-        display: true
+        id: 3,
+        name: "Sign Up",
+        display: true,
+        link: "/signUp",
+        color: "warning"
       },
       {
-        logout: "Logout",
-        display: false
+        id: 4,
+        name: "Logout",
+        display: false,
+        link: "/",
+        color: "danger"
       }
     ];
     return (

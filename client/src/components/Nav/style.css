@@ -1,3 +1,12 @@
 button {
     margin: 10px;
 }
+
+button:hover {
+    color:black;
+    font-family: 'Righteous', cursive;
+}
+
+h1 {
+    font-family: 'Permanent Marker', 'cursive';
+}

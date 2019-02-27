@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Home",
+    "display": false,
+    "link": "/",
+    "color": "primary"
+  },
+  {
+    "id": 2,
+    "name": "Login",
+    "display": true,
+    "link": "/login",
+    "color": "info"
+  },
+  {
+    "id": 3,
+    "name": "Sign Up",
+    "display": true,
+    "link": "/signUp",
+    "color": "warning"
+  },
+  {
+    "id": 4,
+    "name": "Logout",
+    "display": false,
+    "link": "/",
+    "color": "danger"
+  }
+]

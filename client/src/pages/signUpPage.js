@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Nav from "../components/Nav/index";
 import Form from "../components/Form/index";
 import buttons from "../components/Buttons.json";
+import { Link } from "react-router-dom";
 
 class signUpPage extends Component {
   state = {
@@ -13,15 +14,19 @@ class signUpPage extends Component {
     buttons
   };
 
+ baseState = this.state
+
   onSubmit = event => { //we need this to log the form data to our DB
     event.preventDefault();
     console.log(event);
+    this.setState(this.baseState)
   };
 
 
   onChange = event => {
       this.setState ({[event.target.name] : event.target.value});
       console.log(this.state);
+      console.log(this.baseState)
   }
 
 
@@ -32,7 +37,7 @@ class signUpPage extends Component {
         
         <div className="container">
         <h1 className='text-center'>Sign Up for SaveMySpot</h1>
-          <form>
+          <form onSubmit={this.onSubmit}>
           <div className="form-group">
               <label for="firstname">First Name</label>
               <input
@@ -92,9 +97,11 @@ class signUpPage extends Component {
                 We'll never share your email with anyone else.
               </small>
             </div>
+            <Link to="/login">
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
+            </Link>
           </form>
         </div>
       </div>

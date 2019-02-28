@@ -6,7 +6,60 @@ button:hover {
     color:black;
     font-family: 'Righteous', cursive;
 }
+@import url('https://fonts.googleapis.com/css?family=Coiny|Lobster|Pacifico');
 
-h1 {
+
+/* h1 {
     font-family: 'Permanent Marker', 'cursive';
+} */
+
+
+
+.container {
+    display: grid;
+  
+  }
+  
+  .header {
+    /* background: #333 url("./Images/2waitinline.jpg"); */
+    height: 400px;
+    padding: 20px;
+    color: #FA4521; 
+    font-family: "lobster";
+    /* font-size: calc(10px + 2vmin); */
+    text-align: center;
+    font-size: 150%; 
+    
+  }
+
+ .header .bg-image {
+     position: absolute;
+     background: #333 url("./Images/2waitinline.jpg");
+     height: 250px;
+     background-position: center;
+     background-size: cover;
+     width: 100%;
+     z-index: -1;
+     opacity: 0.6; 
+     
+ }
+
+ .header .buttons {
+     position: right;
+     height: 75px;
+     text-align: right;
+ }
+h2, p {
+    color: #6982A1;
 }
+
+
+  h1 {
+      font-family: "lobster";
+      position: center;
+      color: #EAEAEF;
+      /* color: #EC1408;  */
+      font-size: 300%; 
+  }
+
+ 

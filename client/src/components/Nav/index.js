@@ -4,21 +4,25 @@ import "./style.css";
 
 
 const Nav = props => (
-      <nav className="navbar navbar-expand-lg navbar-light bg-success rounded">
-        <div className="container">
-          <a className="navbar-brand" href="#">
-            <h1>SaveMySpot</h1>
-          </a>
-          <div className="text-right">
-
+      <div className="header">
+      <div className="buttons"> 
           {props.buttons.map(btn => (
               <Link to={btn.link} >
               <button className={`btn btn-${btn.color} btn-lg`} style={{display: btn.display ? "initial" : "none"}}>{btn.name}</button>
               </Link>
           ))}
           </div>
-        </div>
-      </nav>
+        {/* <div className="container"> */}
+          {/* <a className="navbar-brand" href="#"> */}
+          <div className="bg-image"></div>
+            <h1>Save My Spot</h1>
+          {/* </a> */}
+          {/* <div className="text-right"> */}      
+       
+          {/* </div> */}
+        {/* </div> */}
+      
+      </div>
     );
 
 export default Nav;

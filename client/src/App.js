@@ -5,6 +5,7 @@ import { Col, Row, Container } from "./components/Grid/index";
 import Jumbotron from "./components/Jumbotron/index";
 import buttons from "./components/Buttons.json"
 
+
 class App extends Component {
 
   state = {
@@ -21,12 +22,24 @@ class App extends Component {
       <Row>
         <Col size="md-6">
         <Jumbotron>
-        <h1> SaveMySpot Product Info</h1>
+        <h2> Welcome to Save My Spot!</h2>
+        <p> Is your To-Do list a mile long? Do you hate waiting in line when
+          you know you have a million other things you need to do?  Check the wait 
+          on your local business and sign into
+          Save My Spot to save your place in line!
+        </p>
         </Jumbotron>
         </Col>
         <Col size="md-6">
         <Jumbotron>
-        <h1>SaveMySpot Demo</h1>
+        <h2>Business Owners </h2>
+        <p> Keep your customers and your employees happy by using Save My Spot! Customers will 
+          no longer have to wait in line for your excellent services and your employees can space 
+          out their customers better. This is good for:
+          Auto Service, barbers, nail salons, etc... 
+
+        </p>
+        
         </Jumbotron>
         </Col>
       </Row>

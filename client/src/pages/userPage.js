@@ -19,12 +19,22 @@ class userPage extends Component {
       <Row>
         <Col size="md-6">
         <Jumbotron>
-        <h1> User Page Info (data here)</h1>
+        <h2> Join the wait list for Haircuts by Chris</h2>
+        <p> The wait time is currently: </p>
+        <button className="save">Save My Spot</button>
+        {/* <div class="container">
+          <h2> this displays after Save My Spot button is clicked </h2>
+        <h2>You are # (number from db) in line</h2>
+        <h2>Current wait time is: </h2>
+        </div> */}
+        
         </Jumbotron>
         </Col>
         <Col size="md-6">
         <Jumbotron>
-        <h1>Data here - open to formatting</h1>
+          {/* <h2>this displays after Save My Spot button is clicked </h2> */}
+        <h2>You are #   in line</h2>
+        <h2>Current wait time is: </h2>
         </Jumbotron>
         </Col>
       </Row>

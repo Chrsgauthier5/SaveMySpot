@@ -11,11 +11,12 @@ const db = require('./models') // looks in models folder for index.js where we o
 const routes = require('./routes')
 
 // Define middleware here
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json())
-
+app.use(express.cookieParser());
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
@@ -24,7 +25,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Define API routes here
 app.use('/api/auth', routes.auth); //handles all the auth routes
-
+app.use('/api/business', routes.business);
 
 // Send every other request to the React app
 app.get("*", (req, res) => {

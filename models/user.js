@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    inLine: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -60,16 +64,16 @@ userSchema.methods.comparePassword = async function(attempt, next){
 
 
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema, 'User');
 
 //need to install bcrypt package to encrypt passwords
 
 //npm install bcrpytjs
 
-// //{
-// 	"firstname": "chris",
-// 	"lastname": "gauthier",
-// 	"username": "Frankie123",
+// {
+// 	"firstname": "john",
+// 	"lastname": "doe",
+// 	"username": "Jdoe123",
 // 	"password": "password",
-// 	"email": "example123@gmail.com"
+// 	"email": "example12345@gmail.com"
 // }

@@ -6,11 +6,17 @@ const businessSchema = new mongoose.Schema({
         required: true,
         lowercase: true
     },
-    waitlist: {
+    numWaiting: {
         type: Number,
         default: 0,
-        waiting: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    },
+    waitlist: {
+        type: Array,
+        default: []
     }
+    
 });
 
-module.exports = mongoose.model('Business', businessSchema);
+module.exports = mongoose.model('Business', businessSchema, 'Business');
+
+//seed: db.business.insert({businessName: "Jeff's Burgers", numWaiting: 2, waitList: ['chris','diane']});

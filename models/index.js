@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require("dotenv").config();
 
 mongoose.set('debug', true)
 mongoose.Promise = global.Promise

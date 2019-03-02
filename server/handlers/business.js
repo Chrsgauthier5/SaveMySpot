@@ -13,8 +13,8 @@ exports.showWaitList = async (req, res, next) => {
     }
 };
 
-exports.waitSwitch = async (req, res, next) => {
-    try{
-       if(await db.User.find({})
-    }
-}
+// exports.waitSwitch = async (req, res, next) => {
+//     try{
+//        if(await db.User.find({})
+//     }
+// }

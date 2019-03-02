@@ -34,7 +34,7 @@ const businesses = [
 const seed = async () => {
   try {
     await db.User.remove();
-    console.log('DROP ALL USERS');
+     console.log('DROP ALL USERS');
 
     await db.Business.remove();
     console.log('DROP ALL BUSINESSES');
@@ -54,9 +54,9 @@ const seed = async () => {
         }),
       );
   
-    console.log('CREATED BUSINESSES', JSON.stringify(businesses));
+    return console.log('CREATED BUSINESSES', JSON.stringify(businesses));
   } catch (err) {
-    console.error(err);
+    return console.error(err);
   }
 };
 

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser')
-const db = require('../models/');
+const db = require('../models');
 
 
 exports.register = async (req, res, next) => { //async functions will use try/catch

@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json())
-app.use(express.cookieParser());
+
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {

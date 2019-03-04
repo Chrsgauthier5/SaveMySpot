@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Nav from "../components/Nav/index";
 import Form from "../components/Form/index";
-import buttons from "../components/Buttons.json";
+import buttons from "../components/loginBtn.json";
 import { Link } from "react-router-dom";
 
 class signUpPage extends Component {

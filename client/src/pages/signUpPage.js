@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import Nav from "../components/Nav/index";
 import Form from "../components/Form/index";
-import buttons from "../components/Buttons.json";
+import buttons from "../components/signupBtn.json";
 import { Link } from "react-router-dom";
 import api from "../services/api";
+
+
 
 class signUpPage extends Component {
   state = {
@@ -17,6 +19,12 @@ class signUpPage extends Component {
   
   
 baseState = this.state
+
+// componentDidMount() {
+//   console.log(this.state);
+  
+// }
+
 
 onSubmit = event => { //we need this to log the form data to our DB
     

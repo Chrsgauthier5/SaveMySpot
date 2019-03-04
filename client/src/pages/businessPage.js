@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import buttons from "../components/Buttons.json"
+import buttons from "../components/userBtn.json";
 import BusPage from "../components/BusinessNav/index";
 import { Col, Row, Container } from "../components/Grid/index"; 
 import Jumbotron from "../components/Jumbotron/index";

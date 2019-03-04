@@ -3,6 +3,7 @@ import Nav from "../components/Nav/index";
 import Form from "../components/Form/index";
 import buttons from "../components/Buttons.json";
 import { Link } from "react-router-dom";
+import api from "../services/api";
 
 class signUpPage extends Component {
   state = {
@@ -13,20 +14,36 @@ class signUpPage extends Component {
     email: "",
     buttons
   };
+  
+  
+baseState = this.state
 
- baseState = this.state
-
-  onSubmit = event => { //we need this to log the form data to our DB
+onSubmit = event => { //we need this to log the form data to our DB
+    
     event.preventDefault();
-    console.log(event);
+    
+    console.log(this.state);
+    
+    const results = api.call('post', 'auth/register', {
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      username: this.state.username,
+      password: this.state.password,
+      email: this.state.email
+    }).then((results) => console.log(results));
+    
+  
+    
+    
+    
     this.setState(this.baseState)
+    
   };
 
 
   onChange = event => {
       this.setState ({[event.target.name] : event.target.value});
-      console.log(this.state);
-      console.log(this.baseState)
+      
   }
 
 
@@ -97,11 +114,15 @@ class signUpPage extends Component {
                 We'll never share your email with anyone else.
               </small>
             </div>
-            <Link to="/login">
-            <button type="submit" className="btn btn-primary">
+            {/* <Link to="/login"> */}
+            <button 
+            type="submit" 
+            className="btn btn-primary" 
+            disabled={!(this.state.firstname && this.state.lastname && this.state.username && this.state.password && this.state.email)}
+            >
               Submit
             </button>
-            </Link>
+            {/* </Link> */}
           </form>
         </div>
       </div>

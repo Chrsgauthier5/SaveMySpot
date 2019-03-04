@@ -4,6 +4,7 @@ const db = require('../models');
 
 exports.register = async (req, res, next) => { //async functions will use try/catch
     try{
+        console.log('hitting register handler');
         const user = await db.User.create(req.body); //creates user from body
         const {id, username} = user;
         

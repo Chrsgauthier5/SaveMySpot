@@ -3,6 +3,7 @@ import Nav from "../components/Nav/index";
 import Form from "../components/Form/index";
 import buttons from "../components/loginBtn.json";
 import { Link } from "react-router-dom";
+import api from "../services/api";
 
 class signUpPage extends Component {
   state = {
@@ -14,23 +15,30 @@ class signUpPage extends Component {
   baseState = this.state //grabs a 'snapshot' of empty state object
 
   onSubmit = event => { //we need this to log the form data to our DB
+    const {username, password, buttons} = this.state;
     event.preventDefault();
-    console.log(event);
-    this.setState(this.baseState) //clears out the fields
+    
+    
+    const results = api.call('post', 'auth/login', {
+      username,
+      password
+    }).then((results) => console.log(results));
+    
+    this.setState(this.baseState)
+    
   };
 
 
-  onChange = event => {
-      this.setState ({[event.target.name] : event.target.value});
-      console.log(this.state);
-      console.log(this.baseState)
-  }
+  onChange = event => this.setState({[event.target.name] : event.target.value});
 
 
   render() {
+
+    const {username, password, buttons} = this.state;
+
     return (
       <div>
-        <Nav buttons={this.state.buttons} />
+        <Nav buttons={buttons} />
         
         <div className="container">
         <h1 className='text-center'>Welcome Back to SaveMySpot</h1>
@@ -42,7 +50,7 @@ class signUpPage extends Component {
                 className="form-control"
                 name="username"
                 placeholder="Username"
-                value={this.state.username}
+                value={username}
                 onChange={this.onChange}
               />
             </div>
@@ -53,22 +61,30 @@ class signUpPage extends Component {
                 className="form-control"
                 name="password"
                 placeholder="Password"
-                value={this.state.password}
+                value={password}
                 onChange={this.onChange}
               />
               </div>
 
-            <Link to="/user">  
-            <button type="submit" className="btn btn-primary">
+            {/* <Link to="/user">   */}
+            <button 
+            type="submit" 
+            className="btn btn-primary"
+            disasbled={!(username && password)}
+            >
               Login - (User Route)
             </button>
-            </Link>
+            {/* </Link> */}
             
-            <Link to="/business">  
-            <button type="submit" className="btn btn-primary">
+            {/* <Link to="/business">   */}
+            <button 
+            type="submit" 
+            className="btn btn-primary"
+            disasbled={!(username && password)}
+            >
               Login - (Business Route)
             </button>
-            </Link>
+            {/* </Link> */}
           </form>
         </div>
       </div>

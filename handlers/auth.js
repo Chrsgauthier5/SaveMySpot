@@ -2,6 +2,20 @@ const jwt = require('jsonwebtoken');
 const db = require('../models');
 
 
+exports.getUsers = async (req, res, next) => {
+    try {
+      const users = await db.User.find();
+  
+      return res.status(200).json(users);
+    } catch (err) {
+      return next({
+        status: 400,
+        message: err.message,
+      });
+    }
+  };
+
+
 exports.register = async (req, res, next) => { //async functions will use try/catch
     try{
         console.log('hitting register handler');
@@ -28,6 +42,7 @@ exports.register = async (req, res, next) => { //async functions will use try/ca
 
 exports.login = async (req, res, next) => {
     try{
+        console.log(req.body);
         const user = await db.User.findOne({username: req.body.username});
         const {id, username} = user;
         const valid = await user.comparePassword(req.body.password);// returns Boolean

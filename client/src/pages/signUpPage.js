@@ -17,7 +17,8 @@ class signUpPage extends Component {
     buttons
   };
   
-  
+
+
 baseState = this.state
 
 // componentDidMount() {
@@ -40,10 +41,6 @@ onSubmit = event => { //we need this to log the form data to our DB
       email: this.state.email
     }).then((results) => console.log(results));
     
-  
-    
-    
-    
     this.setState(this.baseState)
     
   };
@@ -56,9 +53,12 @@ onSubmit = event => { //we need this to log the form data to our DB
 
 
   render() {
+
+    const {firstname, lastname, username, password, email, buttons} = this.state;
+
     return (
       <div>
-        <Nav buttons={this.state.buttons} />
+        <Nav buttons={buttons} />
         
         <div className="container">
         <h1 className='text-center'>Sign Up for SaveMySpot</h1>
@@ -70,7 +70,7 @@ onSubmit = event => { //we need this to log the form data to our DB
                 className="form-control"
                 name="firstname"
                 placeholder="John"
-                value={this.state.firstname}
+                value={firstname}
                 onChange={this.onChange}
               />
             </div>
@@ -81,7 +81,7 @@ onSubmit = event => { //we need this to log the form data to our DB
                 className="form-control"
                 name="lastname"
                 placeholder="Doe"
-                value={this.state.lastname}
+                value={lastname}
                 onChange={this.onChange}
               />
               </div>
@@ -92,7 +92,7 @@ onSubmit = event => { //we need this to log the form data to our DB
                 className="form-control"
                 name="username"
                 placeholder="Username"
-                value={this.state.username}
+                value={username}
                 onChange={this.onChange}
               />
             </div>
@@ -103,7 +103,7 @@ onSubmit = event => { //we need this to log the form data to our DB
                 className="form-control"
                 name="password"
                 placeholder="Password"
-                value={this.state.password}
+                value={password}
                 onChange={this.onChange}
               />
             </div>
@@ -115,7 +115,7 @@ onSubmit = event => { //we need this to log the form data to our DB
                 name="email"
                 aria-describedby="emailHelp"
                 placeholder="example@gmail.com"
-                value={this.state.email}
+                value={email}
                 onChange={this.onChange}
               />
               <small id="emailHelp" className="form-text text-muted">
@@ -126,7 +126,7 @@ onSubmit = event => { //we need this to log the form data to our DB
             <button 
             type="submit" 
             className="btn btn-primary" 
-            disabled={!(this.state.firstname && this.state.lastname && this.state.username && this.state.password && this.state.email)}
+            disabled={!(firstname && lastname && username && password && email)}
             >
               Submit
             </button>

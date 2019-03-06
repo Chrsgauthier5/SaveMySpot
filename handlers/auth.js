@@ -28,7 +28,7 @@ exports.register = async (req, res, next) => { //async functions will use try/ca
         res.status(201).json({
             id, 
             username, 
-            token,
+            token
             
         });
     } catch(err){

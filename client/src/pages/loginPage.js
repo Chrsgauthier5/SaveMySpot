@@ -22,10 +22,18 @@ class signUpPage extends Component {
     const results = api.call('post', 'auth/login', {
       username,
       password
-    }).then((results) => console.log(results));
+    }).then((results) => {
     
+    api.setToken(results.token);
+    sessionStorage.setItem("token", results.token);
+    console.log('saved token to sessionStorage');
+    api.call('get', 'auth')
+    .then((resp) => {  
+    console.log(resp);
+    })
+
     this.setState(this.baseState)
-    
+    });
   };
 
 

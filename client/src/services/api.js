@@ -16,4 +16,4 @@ export const call = async (method, path, data) => {
 }
 
 
-export default {call, setToken};
+export default {call, setToken}

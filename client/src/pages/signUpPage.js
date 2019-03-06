@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Nav from "../components/Nav/index";
-import Form from "../components/Form/index";
 import buttons from "../components/signupBtn.json";
 import { Link } from "react-router-dom";
 import api from "../services/api";

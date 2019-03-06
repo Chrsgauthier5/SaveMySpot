@@ -1,46 +1,53 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import buttons from "../components/userBtn.json";
 import Nav from "../components/Nav/index";
-import { Col, Row, Container } from "../components/Grid/index"; 
+import { Col, Row, Container } from "../components/Grid/index";
 import Jumbotron from "../components/Jumbotron/index";
+import api from "../services/api";
+import axios from "axios";
 
 class userPage extends Component {
+  state = {
+    buttons,
+    businesses: null
+  };
 
-    state = {
-        buttons
-    }
-
-
+  async componentDidMount() {
+    const res = await api.call("get", "business/showBis/");      
+    this.setState({businesses: res});
+    };
+  
 
   render() {
     return (
       <div>
-      <Nav buttons={buttons}/>  
-      <Row>
-        <Col size="md-6">
-        <Jumbotron>
-        <h2> Join the wait list for Haircuts by Chris</h2>
-        <p> The wait time is currently: </p>
-        <button className="save">Save My Spot</button>
-        {/* <div class="container">
+        {console.log(this.state.businesses)}
+        <Nav buttons={buttons} />
+        <Row>
+          <Col size="md-6">
+            <Jumbotron>
+              <h2> Join the wait list for Haircuts by Chris</h2>
+              <p> The wait time is currently: </p>
+              <button className="save">Save My Spot</button>
+              {this.state.businesses ? this.state.businesses.map(biz => <p>Name {biz.businessName}</p>) : <p>Loading</p>}
+              {/* <div class="container">
           <h2> this displays after Save My Spot button is clicked </h2>
         <h2>You are # (number from db) in line</h2>
         <h2>Current wait time is: </h2>
         </div> */}
-        
-        </Jumbotron>
-        </Col>
-        <Col size="md-6">
-        <Jumbotron>
-          {/* <h2>this displays after Save My Spot button is clicked </h2> */}
-        <h2>You are #   in line</h2>
-        <h2>Current wait time is: </h2>
-        </Jumbotron>
-        </Col>
-      </Row>
+            </Jumbotron>
+          </Col>
+          <Col size="md-6">
+            <Jumbotron>
+              {/* <h2>this displays after Save My Spot button is clicked </h2> */}
+              <h2>You are # in line</h2>
+              <h2>Current wait time is: </h2>
+            </Jumbotron>
+          </Col>
+        </Row>
       </div>
-    )
+    );
   }
 }
 
-export default userPage
+export default userPage;

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import Nav from "../components/Nav/index";
 import buttons from "../components/signupBtn.json";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import api from "../services/api";
 
 
 
 class signUpPage extends Component {
   state = {
+    toLoginPage: false,
     firstname: "",
     lastname: "",
     username: "",
@@ -20,27 +21,25 @@ class signUpPage extends Component {
 
 baseState = this.state
 
-// componentDidMount() {
-//   console.log(this.state);
-  
-// }
+loginPage = () => {
 
+}
 
 onSubmit = event => { //we need this to log the form data to our DB
+  event.preventDefault();  
+  const {firstname, lastname, username, password, email, buttons} = this.state;
     
-    event.preventDefault();
     
-    console.log(this.state);
-    
-    const results = api.call('post', 'auth/register', {
-      firstname: this.state.firstname,
-      lastname: this.state.lastname,
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    }).then((results) => console.log(results));
-    
-    this.setState(this.baseState)
+    api.call('post', 'auth/register', {
+      firstname: firstname,
+      lastname: lastname,
+      username: username,
+      password: password,
+      email: email
+    }).then((results) => {
+      console.log(results)
+      this.setState({toLoginPage: true});
+    });
     
   };
 
@@ -52,9 +51,10 @@ onSubmit = event => { //we need this to log the form data to our DB
 
 
   render() {
-
-    const {firstname, lastname, username, password, email, buttons} = this.state;
-
+    const {toLoginPage, firstname, lastname, username, password, email, buttons} = this.state;
+    if(toLoginPage){
+      return <Redirect to='/login' />
+    } 
     return (
       <div>
         <Nav buttons={buttons} />

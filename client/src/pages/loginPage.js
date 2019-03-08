@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Nav from "../components/Nav/index";
-import buttons from "../components/loginBtn.json";
+import buttons from "../components//ButtonLayout/loginBtn.json";
 import Loading from "../components/Loading";
 import api from "../services/api";
 
@@ -52,8 +52,6 @@ class loginPage extends Component {
       });
   };
 
-  
-
   render() {
     const { alreadyLoggedIn, bizLoggedIn, loggedIn, email, password } = this.state;
 
@@ -71,7 +69,9 @@ class loginPage extends Component {
     if (this.state.isLoaded) {
       return (
         <div>
-          <Nav buttons={this.state.buttons} />
+          <Nav 
+          buttons={this.state.buttons} 
+          />
 
           <div className="container">
             <h1 className="text-center">Welcome Back to SaveMySpot</h1>

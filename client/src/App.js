@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Nav from "./components/Nav/index";
 import { Col, Row, Container } from "./components/Grid/index"; 
 import Jumbotron from "./components/Jumbotron/index";
-import buttons from "./components/homeBtn.json";
+import buttons from "./components/ButtonLayout/homeBtn.json";
 
 
 

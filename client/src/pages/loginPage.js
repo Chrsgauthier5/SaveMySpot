@@ -5,25 +5,31 @@ import { Link, Redirect } from "react-router-dom";
 import api from '../services/api';
 
 class loginPage extends Component {
-  state = { loggedIn: false, username: "", password: "", buttons };
 
-  // baseState = this.state //grabs a 'snapshot' of empty state object
+  state = { loggedIn: false, bizLoggedIn: false, email: "", password: "", buttons };
 
-  onSubmit = event => { //we need this to log the form data to our DB
-    const { loggedIn, username, password } = this.state;
+  
+  onSubmit = event => {
     event.preventDefault();
-    api.call('post', 'auth/login', { username, password })
+
+    const { email, password } = this.state;
+
+    api.call('post', 'auth/login', { email, password })
       .then((results) => {
         console.log(results);
         api.setToken(results.token);
         sessionStorage.setItem('token', results.token);
         sessionStorage.setItem('userInfo', JSON.stringify(results));
+        if (results.token && results.businessUser) {
+          this.setState({ bizLoggedIn: true });
+        }
         if (results.token) {
-          this.setState({ loggedIn: true });
+          this.setState({loggedIn: true})
         }
       })
       .catch((err) => {
-        err.message = 'Invalid Username or Password';
+        console.log(err);
+        err.message = 'Invalid Email or Password';
         alert(err.message);
       });
   };
@@ -36,11 +42,15 @@ class loginPage extends Component {
 
   render() {
 
-    const { loggedIn, username, password } = this.state;
-
+    const { bizLoggedIn, loggedIn, email, password } = this.state;
+    
+    if (bizLoggedIn) {
+      alert("Login Successful - Redirecting to Business Page");
+      return <Redirect to='/business' />
+    }
     if (loggedIn) {
-      alert("Login Successful - Redirecting to User Page");
-      return <Redirect to='/user' />
+      alert("Login Successfull - Redirecting to User Page")
+      return <Redirect to= '/user' />
     }
 
     return (
@@ -50,14 +60,15 @@ class loginPage extends Component {
         <div className="container">
           <h1 className='text-center'>Welcome Back to SaveMySpot</h1>
           <form onSubmit={this.onSubmit}>
-            <div className="form-group">
-              <label for="firstname">Username</label>
+          <div className="form-group">
+              <label for="email">Email address</label>
               <input
-                type="text"
+                type="email"
                 className="form-control"
-                name="username"
-                placeholder="Username"
-                value={username}
+                name="email"
+                aria-describedby="emailHelp"
+                placeholder="example@gmail.com"
+                value={email}
                 onChange={this.onChange}
               />
             </div>
@@ -73,14 +84,8 @@ class loginPage extends Component {
               />
             </div>
             <button type="submit" className="btn btn-primary">
-              Login - (User Route)
+              Login 
             </button>
-
-            <Link to="/business">
-              <button type="submit" className="btn btn-primary">
-                Login - (Business Route)
-            </button>
-            </Link>
           </form>
         </div>
       </div>

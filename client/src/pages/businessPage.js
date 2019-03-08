@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import buttons from "../components/Buttons.json"
-import BusPage from "../components/BusinessNav/index";
 import { Col, Row, Container } from "../components/Grid/index"; 
 import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
+import SimpleTable from "../components/Table/index";
+// import Sidebar from "../components/Sidebar/Sidebar";
+
+
 
 class businessPage extends Component {
 
@@ -14,15 +17,21 @@ class businessPage extends Component {
 
 
     render() {
+      
       return (
         <div>
         <Nav buttons={buttons}/>  
+        {/* <Sidebar/> */}
         <Row>
           <Col size="md-12">
           <Jumbotron>
           <h2> Welcome Haircuts by Chris! Here is a list of your customers:</h2>
           {/* <p> Jeff and Chris' code here </p> */}
           {/* <button className="save">Save My Spot</button> */}
+          
+          <SimpleTable/>
+
+          
           
           </Jumbotron>
           </Col>

@@ -71,7 +71,7 @@ class App extends Component {
         <h2>Business Owners </h2>
         <p> Keep your customers and your employees happy by using Save My Spot! Customers will 
           no longer have to wait in line for your excellent services and your employees can space 
-          out their customers better. This is good for:
+          out their customers better. This is app is helpful for:
           Auto Service, barbers, nail salons, etc... 
         </p>
 {/* adding userlist display and functiona for business  */}

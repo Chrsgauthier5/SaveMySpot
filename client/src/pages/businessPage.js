@@ -4,6 +4,7 @@ import BusPage from "../components/BusinessNav/index";
 import { Col, Row, Container } from "../components/Grid/index"; 
 import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
+import SimpleTable from "../components/Table/index";
 
 class businessPage extends Component {
 
@@ -23,7 +24,7 @@ class businessPage extends Component {
           <h2> Welcome Haircuts by Chris! Here is a list of your customers:</h2>
           {/* <p> Jeff and Chris' code here </p> */}
           {/* <button className="save">Save My Spot</button> */}
-          
+          <SimpleTable/>
           </Jumbotron>
           </Col>
           {/* <Col size="md-6">

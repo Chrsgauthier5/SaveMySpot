@@ -17,54 +17,57 @@ exports.getUsers = async (req, res, next) => {
 exports.register = async (req, res, next) => { //async functions will use try/catch
     try {
         const user = await db.User.create(req.body); //creates user from body
-        const { id, username } = user;
+        const { id, email, firstname, lastname, businessUser } = user;
 
 
-        const token = jwt.sign({ id, username }, process.env.SECRET); // can set as cookie & have access to it
+        const token = jwt.sign({ id, email }, process.env.SECRET); // can set as cookie & have access to it
 
-        console.log(id, username, token)
+        console.log(id, email, token)
         res.status(201).json({
             id,
-            username,
+            email,
             firstname,
             lastname,
+            businessUser,
             token
         });
     } catch (err) {
         // if (err.code === 11000){
-        err.message = 'Sorry, that username or email is already taken';
+            console.log(err);
+       err.message = 'Sorry, that username or email is already taken';
     }
-    next(err)
+       next(err);
+    
 
 };
 
 
 exports.login = async (req, res, next) => {
     try {
-        const user = await db.User.findOne({ username: req.body.username });
-        const { id, username, firstname, lastname } = user;
+        const user = await db.User.findOne({ email: req.body.email });
+        console.log(user);
+        const { id, email, firstname, lastname, businessUser } = user;
         const valid = await user.comparePassword(req.body.password);// returns Boolean
-
+        console.log(valid);
         if (valid) {  // if valid returned true (passwords matched)
-            const token = jwt.sign({ id, username }, process.env.SECRET);
+            const token = jwt.sign({ id, email }, process.env.SECRET);
 
             res.status(200).json({
                 id,
-                username,
+                email,
                 firstname,
                 lastname,
+                businessUser,
                 token
             });
-            console.log(id, username, token)
+            console.log(id, email, token)
         }
         else {
             throw new Error()
         }
     } catch (err) {
-        err.message = 'Invalid Username or Password';
+        err.message = 'Invalid Email or Password';
 
         next(err);
     }
 };
-
-//need to: npm install jsonwebtoken.  Also add to .env a secret.  SECRET='ThisIsATemporarySecret'

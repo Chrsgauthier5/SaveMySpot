@@ -11,7 +11,7 @@ const Nav = props => (
               <button className={`btn btn-${btn.color} btn-lg`} style={{display: btn.display ? "initial" : "none"}}>{btn.name}</button>
               </Link>
           ))}
-          {/* <p>Hello {props.userInfo.firstname}</p> */}
+          
           </div>
         
           <div className="bg-image"></div>

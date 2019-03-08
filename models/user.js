@@ -10,11 +10,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
     password: {
         type: String,
         required: true
@@ -32,7 +27,11 @@ const userSchema = new mongoose.Schema({
     inLine: {
         type: Boolean,
         default: false
-    }
+    },
+   businessUser: {
+       type: Boolean,
+       default: false
+   } 
 });
 
 
@@ -51,29 +50,14 @@ userSchema.pre('save', async function(next) {
 
 
 userSchema.methods.comparePassword = async function(attempt, next){
-
     try {
-
         return await bcrypt.compare(attempt, this.password); // returns a Boolean
-
-    } catch(err){
+    } 
+    catch(err) {
         next(err);
     }
-
 }
 
 
 
 module.exports = mongoose.model('User', userSchema, 'User');
-
-//need to install bcrypt package to encrypt passwords
-
-//npm install bcrpytjs
-
-// {
-// 	"firstname": "john",
-// 	"lastname": "doe",
-// 	"username": "Jdoe123",
-// 	"password": "password",
-// 	"email": "example12345@gmail.com"
-// }

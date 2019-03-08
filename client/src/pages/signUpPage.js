@@ -9,15 +9,10 @@ class signUpPage extends Component {
     toLoginPage: false,
     firstname: "",
     lastname: "",
-    username: "",
     password: "",
     email: "",
     buttons
   };
-
-
-
-  baseState = this.state
 
   takenUserOrEmail = (err) => {
     alert(err.message);
@@ -25,13 +20,14 @@ class signUpPage extends Component {
 
   onSubmit = event => { //we need this to log the form data to our DB
     event.preventDefault();
-    const { firstname, lastname, username, password, email, buttons } = this.state;
+    const { firstname, lastname, password, email} = this.state;
 
     api.call('post', 'auth/register', {
-      firstname: firstname, lastname: lastname, username: username, password: password, email: email})
+      firstname: firstname, lastname: lastname, password: password, email: email})
       .then((results) => (results.id) ? this.setState({ toLoginPage: true }) : console.log('username or email already in use'))
       .catch((err)=> {
-      err.message ="Username or Email already taken.  Please change and try again"
+      console.log(err);
+      err.message ="Email already taken.  Please change and try again"
       this.takenUserOrEmail(err);
     });
   };
@@ -44,7 +40,7 @@ class signUpPage extends Component {
 
 
   render() {
-    const { toLoginPage, firstname, lastname, username, password, email, buttons } = this.state;
+    const { toLoginPage, firstname, lastname, password, email, buttons } = this.state;
 
     if (toLoginPage) {
       alert("Account Successfully Created - Please login");
@@ -81,28 +77,6 @@ class signUpPage extends Component {
               />
             </div>
             <div className="form-group">
-              <label for="username">Desired Username</label>
-              <input
-                type="text"
-                className="form-control"
-                name="username"
-                placeholder="Username"
-                value={username}
-                onChange={this.onChange}
-              />
-            </div>
-            <div className="form-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={this.onChange}
-              />
-            </div>
-            <div className="form-group">
               <label for="email">Email address</label>
               <input
                 type="email"
@@ -117,10 +91,21 @@ class signUpPage extends Component {
                 We'll never share your email with anyone else.
               </small>
             </div>
+            <div className="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={this.onChange}
+              />
+            </div>
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={!(firstname && lastname && username && password && email)}
+              disabled={!(firstname && lastname && password && email)}
             >
               Submit
             </button>

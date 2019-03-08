@@ -3,6 +3,7 @@ const handle = require('../handlers')
 const auth = require('../middlewares/auth');
 
 router.get('/showBis', auth, handle.showWaitList) //show everything
+
 // .post(auth, handle.startWaiting)
 
 

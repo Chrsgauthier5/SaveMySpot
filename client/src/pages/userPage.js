@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import buttons from "../components/userBtn.json";
+import buttons from "../components/ButtonLayout/userBtn.json";
 import Nav from "../components/Nav/index";
 import { Col, Row, Container } from "../components/Grid/index";
 import Jumbotron from "../components/Jumbotron/index";
@@ -21,14 +21,14 @@ class userPage extends Component {
   }
 
   render() {
-    console.log(this.state.userInfo);
-    if (this.state.isLoaded) {
+    const {jwt, userInfo, isLoaded} = this.state;
+    console.log(userInfo);
+    if (isLoaded) {
       return (
         <div>
-          <h4>Hello {this.state.userInfo.firstname}</h4>
           <Nav 
           buttons={buttons} 
-          userInfo={this.state.userInfo}
+          userInfo={userInfo}
           />
           <Row>
             <Col size="md-6">

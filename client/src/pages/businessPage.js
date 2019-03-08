@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import buttons from "../components/userBtn.json";
-import BusPage from "../components/BusinessNav/index";
+import buttons from "../components/ButtonLayout/userBtn.json";
+
 import { Col, Row, Container } from "../components/Grid/index"; 
 import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
 import SimpleTable from "../components/Table/index";
 
-import Users from './Users';
-import AddUser from './AddUser';
+import Users from '../components/Users.js';
+import AddUser from '../components/AddUser.js';
 
 class businessPage extends Component {
 

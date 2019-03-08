@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Nav from "../components/Nav/index";
-import buttons from "../components/signupBtn.json";
+import buttons from "../components/ButtonLayout/signupBtn.json";
 import { Redirect } from "react-router-dom";
 import api from "../services/api";
 

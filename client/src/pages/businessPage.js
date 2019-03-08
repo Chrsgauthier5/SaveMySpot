@@ -4,6 +4,7 @@ import BusPage from "../components/BusinessNav/index";
 import { Col, Row, Container } from "../components/Grid/index"; 
 import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
+import SimpleTable from "../components/Table/index";
 
 import Users from './Users';
 import AddUser from './AddUser';
@@ -57,6 +58,11 @@ class businessPage extends Component {
           <Jumbotron>
           <h2> Welcome Haircuts by Chris! Here is a list of your customers:</h2>
 
+          {/* <p> Jeff and Chris' code here </p> */}
+          {/* <button className="save">Save My Spot</button> */}
+          <SimpleTable/>
+
+
             {/* <p> Jeff and Chris' code here </p> */}
             {/* <button className="save">Save My Spot</button> */}
             {/* adding userlist display and functiona for business  */}
@@ -66,6 +72,7 @@ class businessPage extends Component {
             {/* pass in the function above below */}
             <AddUser addUserFn={this.addUserFn}/>
          
+
           </Jumbotron>
           </Col>
         </Row>

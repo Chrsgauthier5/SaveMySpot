@@ -1,57 +1,56 @@
 import React, { Component } from "react";
 import Nav from "../components/Nav/index";
-import Form from "../components/Form/index";
 import buttons from "../components/loginBtn.json";
-import { Link } from "react-router-dom";
-import api from "../services/api";
+import { Link, Redirect } from "react-router-dom";
+import api from '../services/api';
 
-class signUpPage extends Component {
-  state = {
-    username: "",
-    password: "",
-    buttons
-  };
+class loginPage extends Component {
+  state = { loggedIn: false, username: "", password: "", buttons };
 
-  baseState = this.state //grabs a 'snapshot' of empty state object
+  // baseState = this.state //grabs a 'snapshot' of empty state object
 
   onSubmit = event => { //we need this to log the form data to our DB
-    const {username, password, buttons} = this.state;
+    const { loggedIn, username, password } = this.state;
     event.preventDefault();
-    
-    
-    const results = api.call('post', 'auth/login', {
-      username,
-      password
-    }).then((results) => {
-    
-    api.setToken(results.token);
-    sessionStorage.setItem("token", results.token);
-    console.log('saved token to sessionStorage');
-    api.call('get', 'auth')
-    .then((resp) => {  
-    console.log(resp);
-    })
-
-    this.setState(this.baseState)
-    });
+    api.call('post', 'auth/login', { username, password })
+      .then((results) => {
+        console.log(results);
+        api.setToken(results.token);
+        sessionStorage.setItem('token', results.token);
+        sessionStorage.setItem('userInfo', JSON.stringify(results));
+        if (results.token) {
+          this.setState({ loggedIn: true });
+        }
+      })
+      .catch((err) => {
+        err.message = 'Invalid Username or Password';
+        alert(err.message);
+      });
   };
 
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
 
-  onChange = event => this.setState({[event.target.name] : event.target.value});
+  }
 
 
   render() {
 
-    const {username, password, buttons} = this.state;
+    const { loggedIn, username, password } = this.state;
+
+    if (loggedIn) {
+      alert("Login Successful - Redirecting to User Page");
+      return <Redirect to='/user' />
+    }
 
     return (
       <div>
-        <Nav buttons={buttons} />
-        
+        <Nav buttons={this.state.buttons} />
+
         <div className="container">
-        <h1 className='text-center'>Welcome Back to SaveMySpot</h1>
+          <h1 className='text-center'>Welcome Back to SaveMySpot</h1>
           <form onSubmit={this.onSubmit}>
-          <div className="form-group">
+            <div className="form-group">
               <label for="firstname">Username</label>
               <input
                 type="text"
@@ -72,27 +71,16 @@ class signUpPage extends Component {
                 value={password}
                 onChange={this.onChange}
               />
-              </div>
-
-            {/* <Link to="/user">   */}
-            <button 
-            type="submit" 
-            className="btn btn-primary"
-            disasbled={!(username && password)}
-            >
+            </div>
+            <button type="submit" className="btn btn-primary">
               Login - (User Route)
             </button>
-            {/* </Link> */}
-            
-            {/* <Link to="/business">   */}
-            <button 
-            type="submit" 
-            className="btn btn-primary"
-            disasbled={!(username && password)}
-            >
-              Login - (Business Route)
+
+            <Link to="/business">
+              <button type="submit" className="btn btn-primary">
+                Login - (Business Route)
             </button>
-            {/* </Link> */}
+            </Link>
           </form>
         </div>
       </div>
@@ -100,6 +88,4 @@ class signUpPage extends Component {
   }
 }
 
-export default signUpPage;
-
-
+export default loginPage;

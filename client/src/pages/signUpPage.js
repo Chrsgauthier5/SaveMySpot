@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import Nav from "../components/Nav/index";
 import buttons from "../components/signupBtn.json";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import api from "../services/api";
-
-
 
 class signUpPage extends Component {
   state = {
@@ -16,53 +14,51 @@ class signUpPage extends Component {
     email: "",
     buttons
   };
-  
 
 
-baseState = this.state
 
-loginPage = () => {
+  baseState = this.state
 
-}
+  takenUserOrEmail = (err) => {
+    alert(err.message);
+  }
 
-onSubmit = event => { //we need this to log the form data to our DB
-  event.preventDefault();  
-  const {firstname, lastname, username, password, email, buttons} = this.state;
-    
-    
+  onSubmit = event => { //we need this to log the form data to our DB
+    event.preventDefault();
+    const { firstname, lastname, username, password, email, buttons } = this.state;
+
     api.call('post', 'auth/register', {
-      firstname: firstname,
-      lastname: lastname,
-      username: username,
-      password: password,
-      email: email
-    }).then((results) => {
-      console.log(results)
-      this.setState({toLoginPage: true});
+      firstname: firstname, lastname: lastname, username: username, password: password, email: email})
+      .then((results) => (results.id) ? this.setState({ toLoginPage: true }) : console.log('username or email already in use'))
+      .catch((err)=> {
+      err.message ="Username or Email already taken.  Please change and try again"
+      this.takenUserOrEmail(err);
     });
-    
   };
 
 
   onChange = event => {
-      this.setState ({[event.target.name] : event.target.value});
-      
+    this.setState({ [event.target.name]: event.target.value });
+
   }
 
 
   render() {
-    const {toLoginPage, firstname, lastname, username, password, email, buttons} = this.state;
-    if(toLoginPage){
+    const { toLoginPage, firstname, lastname, username, password, email, buttons } = this.state;
+
+    if (toLoginPage) {
+      alert("Account Successfully Created - Please login");
       return <Redirect to='/login' />
-    } 
+    }
+
     return (
       <div>
         <Nav buttons={buttons} />
-        
+
         <div className="container">
-        <h1 className='text-center'>Sign Up for SaveMySpot</h1>
+          <h1 className='text-center'>Sign Up for SaveMySpot</h1>
           <form onSubmit={this.onSubmit}>
-          <div className="form-group">
+            <div className="form-group">
               <label for="firstname">First Name</label>
               <input
                 type="text"
@@ -83,8 +79,8 @@ onSubmit = event => { //we need this to log the form data to our DB
                 value={lastname}
                 onChange={this.onChange}
               />
-              </div>
-              <div className="form-group">
+            </div>
+            <div className="form-group">
               <label for="username">Desired Username</label>
               <input
                 type="text"
@@ -121,15 +117,13 @@ onSubmit = event => { //we need this to log the form data to our DB
                 We'll never share your email with anyone else.
               </small>
             </div>
-            {/* <Link to="/login"> */}
-            <button 
-            type="submit" 
-            className="btn btn-primary" 
-            disabled={!(firstname && lastname && username && password && email)}
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={!(firstname && lastname && username && password && email)}
             >
               Submit
             </button>
-            {/* </Link> */}
           </form>
         </div>
       </div>
@@ -138,5 +132,3 @@ onSubmit = event => { //we need this to log the form data to our DB
 }
 
 export default signUpPage;
-
-

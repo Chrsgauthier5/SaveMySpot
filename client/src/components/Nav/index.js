@@ -5,23 +5,17 @@ import "./style.css";
 
 const Nav = props => (
       <div className="header">
-      <div className="buttons"> 
+      <div className="buttons">
           {props.buttons.map(btn => (
               <Link to={btn.link} >
               <button className={`btn btn-${btn.color} btn-lg`} style={{display: btn.display ? "initial" : "none"}}>{btn.name}</button>
               </Link>
           ))}
+          {/* <p>Hello {props.userInfo.firstname}</p> */}
           </div>
-        {/* <div className="container"> */}
-          {/* <a className="navbar-brand" href="#"> */}
+        
           <div className="bg-image"></div>
             <h1>Save My Spot</h1>
-          {/* </a> */}
-          {/* <div className="text-right"> */}      
-       
-          {/* </div> */}
-        {/* </div> */}
-      
       </div>
     );
 

@@ -1,7 +1,7 @@
 const db = require('../models');
 
 // used by Chris in Auth ???
-exports.showWaitList = async (req, res, next) => {
+exports.showBis = async (req, res, next) => {
     try{
         const waitingList = await db.Business.find({});
         res.status(200).json(waitingList);

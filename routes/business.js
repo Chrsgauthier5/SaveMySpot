@@ -2,7 +2,7 @@ const router = require('express').Router();
 const handle = require('../handlers')
 const auth = require('../middlewares/auth');
 
-router.get('/showBis', auth, handle.showWaitList); //show everything
+router.get('/showBis', handle.showBis); //show everything
 // .post(auth, handle.startWaiting)
 
 router.get('/displayWaitList', handle.displayWaitList);

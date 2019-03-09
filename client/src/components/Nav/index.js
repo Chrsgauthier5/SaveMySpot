@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import "./style.css";
 
 
+function handleButtonClick(event) {
+    console.log(event.target.id);
+    if (event.target.id === 'Logout'){
+        sessionStorage.clear();
+    }
+}
+
 const Nav = props => (
       <div className="header">
       <div className="buttons">
           {props.buttons.map(btn => (
               <Link to={btn.link} >
-              <button className={`btn btn-${btn.color} btn-lg`} style={{display: btn.display ? "initial" : "none"}}>{btn.name}</button>
+              <button id={btn.name} onClick={handleButtonClick} className={`btn btn-${btn.color} btn-lg`} style={{display: btn.display ? "initial" : "none"}}>{btn.name}</button>
               </Link>
           ))}
           

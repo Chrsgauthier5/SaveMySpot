@@ -4,7 +4,7 @@ const db = require('../models');
 
 exports.getUsers = async (req, res, next) => {
     try {
-        const users = await db.User.find()
+        const user = await db.User.findOne({ email: req.body.email });
         return res.status(200).json(users);
     } catch (err) {
         return ({
@@ -46,7 +46,7 @@ exports.login = async (req, res, next) => {
     try {
         const user = await db.User.findOne({ email: req.body.email });
         console.log(user);
-        const { id, email, firstname, lastname, businessUser } = user;
+        const { id, email, firstname, lastname, businessUser, inLine } = user;
         const valid = await user.comparePassword(req.body.password);// returns Boolean
         console.log(valid);
         if (valid) {  // if valid returned true (passwords matched)
@@ -58,6 +58,7 @@ exports.login = async (req, res, next) => {
                 firstname,
                 lastname,
                 businessUser,
+                inLine,
                 token
             });
             console.log(id, email, token)

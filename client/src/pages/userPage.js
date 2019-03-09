@@ -1,29 +1,37 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import buttons from "../components/ButtonLayout/userBtn.json";
 import Nav from "../components/Nav/index";
 import { Col, Row, Container } from "../components/Grid/index";
 import Jumbotron from "../components/Jumbotron/index";
+import Loading from "../components/Loading";
+import api from "../services/api";
 
 class userPage extends Component {
   state = {
-    jwt: "",
+    jwt: null,
     userInfo: null,
     buttons,
-    isLoaded: false
+    isLoaded: false,
+    loggedIn: true
   };
 
   async componentDidMount() {
     const jwt = await sessionStorage.getItem("token");
-    this.setState({ jwt: jwt });
+    await this.setState({ jwt: jwt });
 
-    const userInfo = await sessionStorage.getItem("userInfo");
-    this.setState({ userInfo: JSON.parse(userInfo), isLoaded: true });
+    const userInfo = await api.call("get", "auth/");
+    await this.setState({ userInfo: userInfo });
+
+    (this.state.jwt && this.state.userInfo) ? await this.setState({isLoaded: true}) : await this.setState({loggedIn: false});
   }
 
+
   render() {
-    const {jwt, userInfo, isLoaded} = this.state;
-    console.log(userInfo);
-    if (isLoaded) {
+    const {jwt, userInfo, isLoaded, loggedIn} = this.state;
+    console.log(loggedIn)
+    console.log(isLoaded);
+    if (loggedIn && isLoaded) {
       return (
         <div>
           <Nav 
@@ -54,8 +62,12 @@ class userPage extends Component {
         </div>
       );
     }
+    else if (!loggedIn){
+      alert('You are not logged in!');
+      return <Redirect to="/login" />
+    }
     else{
-      return <h4>Loading...</h4>
+      return <Loading />
     }
   }
 }

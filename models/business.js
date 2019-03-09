@@ -10,6 +10,10 @@ const businessSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    waitTime: {
+        type: Number,
+        default: 0,
+    },
     waitlist: {
         type: Array,
         default: []

@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const db = require('./models') // looks in models folder for index.js where we opened DB connection
-const routes = require('./routes')
+const routes = require('./routes');
 
 // Define middleware here
 
@@ -31,7 +31,6 @@ app.use('/api/business', routes.business);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
-
 
 // Start the server
 app.listen(PORT, () => {

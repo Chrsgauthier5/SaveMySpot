@@ -12,15 +12,38 @@ import AddUser from '../components/AddUser.js';
 class businessPage extends Component {
 
     state = {
-        buttons,
-
-        users : [
-          { username: 'Ivan Lane', useremail: 'ivan@yahoo.com', id: 1},
-          { username: 'Jane Smith', useremail: 'jane@gmail.com', id: 2},
-          { username: 'Johh Davis', useremail: 'john@gmail.com', id: 3}
-        ]
+        buttons
     
     };
+    const mongoose = require('mongoose');
+
+    const businessSchema = new mongoose.Schema({
+        businessName: {
+            type: String,
+            required: true,
+            lowercase: true
+        },
+        numWaiting: {
+            type: Number,
+            default: 0,
+        },
+        waitTime: {
+            type: Number,
+            default: 0,
+        },
+        waitlist: {
+            type: Array,
+            default: []
+        }
+        
+    });
+    
+    module.exports = mongoose.model('Business', businessSchema, 'Business');
+    
+    //seed: db.business.insert({businessName: "Jeff's Burgers", numWaiting: 2, waitList: ['chris','diane']});
+
+
+
 
   // function to add new user to array above
   // parameter is newUser is taken in
@@ -60,7 +83,7 @@ class businessPage extends Component {
 
           {/* <p> Jeff and Chris' code here </p> */}
           {/* <button className="save">Save My Spot</button> */}
-          <SimpleTable/>
+          <SimpleTable />
 
 
             {/* <p> Jeff and Chris' code here </p> */}

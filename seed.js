@@ -8,27 +8,27 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/savemyspot");
 const db = require('./models');
 
 const users = [
-  { firstname: 'chris', lastname: 'gauthier', username: 'cgauthier14',
- password: 'test', email: 'example@gmail.com'},
+  { firstname: 'chris', lastname: 'gauthier',
+ password: 'test', email: 'chris@gmail.com'},
 
-  { firstname: 'jeff', lastname: 'bond', username: 'jbond007',
- password: 'test', email: 'jeffb@gmail.com'},
+  { firstname: 'jeff', lastname: 'bond',
+ password: 'test', email: 'jeff@gmail.com'},
 
-  { firstname: 'diane', lastname: 'schiavo', username: 'dschiavo',
- password: 'test', email: 'dschiavo@gmail.com'}
+  { firstname: 'diane', lastname: 'schiavo',
+ password: 'test', email: 'diane@gmail.com'},
+
+  { firstname: 'admin', lastname: 'admin',
+ password: 'test', email: 'admin@gmail.com', businessUser: true}
   
 ];
 
 const businesses = [
   {
-    businessName: "Taco Stand",
-    numWaiting: 0
-  },
-  {
-    businessName: "Taco Stand2",
-    numWaiting: 4
-  },
-  
+    businessName: "Chris's Hair Cut Palace",
+    numWaiting: 5,
+    waitTime: 50,
+    waitlist: ['Chris', 'Jeff', 'Diane', 'Mason', 'Blake']
+  }
 ];
 
 const seed = async () => {

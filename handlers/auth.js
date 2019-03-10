@@ -4,8 +4,8 @@ const db = require('../models');
 
 exports.getUsers = async (req, res, next) => {
     try {
-        const users = await db.User.find({})
-        return res.status(200).json(users);
+        const user = await db.User.find({'id': req.body.id})
+        return res.status(200).json(user);
     } catch (err) {
         return ({
             status: 400,
@@ -71,4 +71,23 @@ exports.login = async (req, res, next) => {
         next(err);
     }
 
+};
+
+exports.toggle = async (req, res, next) => {
+    try {
+        const user = await db.User.findOne({email: req.body.email})
+        console.log(user);
+        const toggleUser = await db.User.update({ email: req.body.email }, {$set: {inLine: !user.inLine}});
+        console.log(toggleUser);
+            res.status(200).json({
+                toggleUser
+            });
+            
+        }
+        catch (err) {
+        
+            err.message = 'Failed to update user';
+
+        next(err);
+    }
 };

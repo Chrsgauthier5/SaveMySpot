@@ -5,7 +5,7 @@ const auth = require('../middlewares/auth.js');
 router.get('/', handle.getUsers);
 router.post('/register', handle.register);
 router.post('/login', handle.login);
-
+router.put('/toggle', handle.toggle);
 
 
 

@@ -20,44 +20,47 @@ const styles = theme => ({
 });
 
 let id = 0;
-function createData(name, phonenumber, waiting, eta, notes) {
+function createData(firstName, lastName, email) {
   id += 1;
-  return { id, name, phonenumber, waiting, eta, notes };
+  return { id, firstName, lastName, email };
 }
 
 const rows = [
-  createData("Diane S", 5551234545, 15, 5, "none"),
-  createData("Chris G", 5551234545, 10, 10, "none"),
-  createData("Jeff B", 5551234545, 5, 15, "none"),
-  createData("Steph S", 5551234545, 0, 20, "difficult customer"),
-  createData("Phil s", 5551234545, 0, 25, "good tipper")
+  createData("No one waiting yet...", "", "")
 ];
 
-function SimpleTable(props) {
-  const { classes } = props;
+const SimpleTable = (props) => {
 
+  // confirm we have the waitlist passed in successfully
+  console.log("busInfo:" + props.busInfo);
+  const { id, businessName, numWaiting, waitTime, waitlist } = props.busInfo[0];
+  console.log("Bus:" + businessName);
+  console.log(waitlist);
+  console.log(waitlist[0]);
+  console.log(waitlist[0].firstName);
+  console.log(waitlist.length);
+  const xlength = waitlist.length;
+  console.log(xlength);
+
+  const { classes } = props;
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
+        {/* set up the table on businessPage */}
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Phone number</TableCell>
-            <TableCell align="right">Waiting </TableCell>
-            <TableCell align="right">ETA</TableCell>
-            <TableCell align="right">Notes</TableCell>
+            <TableCell>First Name</TableCell>
+            <TableCell align="right">Last Name</TableCell>
+            <TableCell align="right">eMail </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {/* display (loop through) the waitlist that we passed in */}
+          {waitlist.map(row => (
             <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.phonenumber}</TableCell>
-              <TableCell align="right">{row.waiting}</TableCell>
-              <TableCell align="right">{row.eta}</TableCell>
-              <TableCell align="right">{row.notes}</TableCell>
+              <TableCell component="th" scope="row">{row.firstName}</TableCell>
+              <TableCell align="right">{row.lastName}</TableCell>
+              <TableCell align="right">{row.email}</TableCell>
             </TableRow>
           ))}
         </TableBody>

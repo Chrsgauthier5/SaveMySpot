@@ -17,10 +17,10 @@ class businessPage extends Component {
 
   async componentDidMount() {
     const businessInfo = await api.call("get", "business/showBis");
-    this.setState({ businessInfo: businessInfo });
+    await this.setState({ businessInfo: businessInfo });
 
     const userInfo = await api.call("get", "auth/");
-    this.setState({ userInfo: userInfo });
+    await this.setState({ userInfo: userInfo });
 
     this.state.businessInfo && this.state.userInfo
       ? this.setState({ isLoaded: true })
@@ -55,8 +55,9 @@ class businessPage extends Component {
   };
 
   render() {
+    console.log("12");
     console.log(this.state.businessInfo);
-    console.log(this.state.userInfo);
+    // console.log(this.state.userInfo);
     if (this.state.isLoaded) {
       return (
         <div>
@@ -67,14 +68,16 @@ class businessPage extends Component {
                 <h2>
                   {" "}
                   Welcome Haircuts by Chris! Here is a list of your customers:
-                  {this.state.userInfo.map(user => {
+                  {/* {this.state.userInfo.map(user => {
                     return user.firstname + user.lastname
-                  })}
+                  })} */}
                 </h2>
 
                 {/* <p> Jeff and Chris' code here </p> */}
                 {/* <button className="save">Save My Spot</button> */}
-                <SimpleTable />
+                {/* <SimpleTable /> */}
+                <SimpleTable busInfo={this.state.businessInfo} />
+
 
                 {/* <p> Jeff and Chris' code here </p> */}
                 {/* <button className="save">Save My Spot</button> */}

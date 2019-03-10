@@ -16,7 +16,7 @@ class userPage extends Component {
     buttons,
     isLoaded: false,
     loggedIn: true,
-    inLine: false
+    inLine: ""
   };
 
   async componentDidMount() {
@@ -25,11 +25,15 @@ class userPage extends Component {
 
     const userInfo = await sessionStorage.getItem("userInfo");
     await this.setState({ userInfo: JSON.parse(userInfo) });
-
+    console.log(this.state.userInfo);
     const businessInfo = await api.call("get", "business/showBis");
     await this.setState({ businessInfo: businessInfo });
 
-    // const userInfo = await api.call("get", "auth/");
+    const userDBInfo = await api.call("get", "auth/");
+    const filtered = userDBInfo.filter(obj => obj.email === this.state.userInfo.email )
+
+    await this.setState({inLine: filtered[0].inLine, userInfo: filtered[0]});
+    console.log(this.state.userInfo);
     // await this.setState({ userInfo: userInfo });
 
     this.state.jwt && this.state.userInfo
@@ -39,6 +43,7 @@ class userPage extends Component {
 
   saveSpot = async event => {
     const { businessInfo, userInfo } = this.state;
+    await api.call("put", "auth/toggle", this.state.userInfo);
     const email = userInfo.email;
     const waitlist = await api.call("get", "business/displayWaitList"); //array of current waitlist
     if (waitlist.indexOf(email) > -1) {
@@ -51,7 +56,7 @@ class userPage extends Component {
       const updatedBusinessInfo = await api.call("get", "business/showBis");
       await this.setState({ businessInfo: updatedBusinessInfo, inLine: true });
 
-      // const toggle = await api.call("put", "auth/toggle", this.state.userInfo); // put user in or out of lineon DB
+      // const toggle = await api.call("put", "auth/toggle", this.state.userInfo); // toggles inLine field or User Collection
       // if (toggle.toggleUser.nModified) {
       //   this.setState({ inLine: true });
       //   this.addWaitlist();
@@ -76,6 +81,19 @@ class userPage extends Component {
     }
   };
 
+  currentWaitTime() {
+    const {businessInfo, userInfo} = this.state;
+    if (businessInfo[0].waitlist.length === 0){
+      return <p> No one is in line!</p>
+    }
+    else if (businessInfo[0].waitlist.indexOf(userInfo.email) === -1){
+      return <p>The current wait time is {(businessInfo[0].waitlist.length) * 10}</p>
+    }
+    else {
+      return <p>Your current wait time is {businessInfo[0].waitlist.indexOf(userInfo.email) * 10} </p>
+    }
+  }
+
   render() {
     const {
       jwt,
@@ -86,6 +104,7 @@ class userPage extends Component {
       businessInfo
     } = this.state;
 
+    
     if (loggedIn && isLoaded) {
       return (
         <div>
@@ -94,7 +113,10 @@ class userPage extends Component {
             <Col size="md-6">
               <Jumbotron>
                 <h2> Join the wait list for Haircuts by Chris</h2>
-                <p> The wait time is currently: {businessInfo[0].waitTime} </p>
+                {this.currentWaitTime()}
+               
+                
+                
                 {!inLine ? (
                   <button className="save" onClick={this.saveSpot}>
                     Save My Spot
@@ -108,7 +130,7 @@ class userPage extends Component {
             </Col>
             <Col size="md-6">
               <Jumbotron>
-                {inLine ? <h2>You are # in line</h2> : <h2 />}
+                {inLine ? <h2>You are #  {businessInfo[0].waitlist.indexOf(userInfo.email) + 1} in line</h2> : <h2 />}
                 <h3>Current Waiting List</h3>
                 {businessInfo[0].waitlist.map(ppl => (
                   <p>{ppl}</p>

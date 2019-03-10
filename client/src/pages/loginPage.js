@@ -62,7 +62,7 @@ class loginPage extends Component {
       return <Redirect to="/business" />;
     }
     if (loggedIn) {
-      alert("Login Successfull - Redirecting to User Page");
+      alert("Login Successful - Redirecting to User Page");
       return <Redirect to="/user" />;
     }
 

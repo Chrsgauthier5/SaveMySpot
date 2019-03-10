@@ -7,7 +7,7 @@ router.get('/showBis', handle.showBis); //show everything
 
 router.get('/displayWaitList', handle.displayWaitList);
 router.get('/displayWaitTime', handle.displayWaitTime);
-router.post('/updateWaitList', handle.updateWaitList);
+router.put('/addWaitList', handle.addWaitList);
 router.post('/updateWaitTime', handle.updateWaitTime);
 
 module.exports = router;

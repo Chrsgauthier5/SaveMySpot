@@ -4,21 +4,21 @@
       "name": "Home",
       "display": true,
       "link": "/",
-      "color": "primary"
+      "color": "info"
     },
     {
       "id": 2,
       "name": "Login",
       "display": false,
       "link": "/login",
-      "color": "success"
+      "color": "info"
     },
     {
       "id": 3,
       "name": "Sign Up",
       "display": true,
       "link": "/signUp",
-      "color": "secondary"
+      "color": "info"
     },
     {
       "id": 4,

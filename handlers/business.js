@@ -48,10 +48,11 @@ exports.displayWaitTime = async (req, res, next) => {
     }
 };
 
-exports.updateWaitList = async (req, res, next) => {
+exports.addWaitList = async (req, res, next) => {
     try{
-        // const waitingList = await db.Business.find({});
-        // res.status(200).json(waitingList);
+        console.log(req.body)
+        const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlist": req.body.user.email}})
+        res.json(waitArray);
 
 
 

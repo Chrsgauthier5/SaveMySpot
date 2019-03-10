@@ -41,8 +41,19 @@ class userPage extends Component {
       let lineStatus = this.state.inLine;
       this.setState({inLine: !lineStatus});
     }
+    (this.state.inLine) ? this.removeWaitlist() : this.addWaitlist()
   }
 
+  addWaitlist = async event => {
+    console.log(this.state.businessInfo);
+    console.log(this.state.userInfo);
+    const addToWaitlist = await api.call('put', 'business/addWaitList', {biz: this.state.businessInfo, user: this.state.userInfo});
+    console.log(addToWaitlist);
+  }
+
+  removeWaitlist = async event => {
+    console.log('hi');
+  }
 
   render() {
     const {jwt, userInfo, isLoaded, loggedIn, inLine, businessInfo} = this.state;

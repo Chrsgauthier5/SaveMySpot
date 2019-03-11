@@ -112,7 +112,7 @@ class userPage extends Component {
           <Row>
             <Col size="md-6">
               <Jumbotron>
-                <h2> Join the wait list for Haircuts by Chris</h2>
+                <h2> Join the wait list for {businessInfo[0].businessName}</h2>
                 {this.currentWaitTime()}
                
                 
@@ -130,7 +130,7 @@ class userPage extends Component {
             </Col>
             <Col size="md-6">
               <Jumbotron>
-                {inLine ? <h2>You are #  {businessInfo[0].waitlist.indexOf(userInfo.email) + 1} in line</h2> : <h2 />}
+                {inLine ? <h2>You are #  {(businessInfo[0].waitlist.indexOf(userInfo.email) + 1)} in line</h2> : <h2 />}
                 <h3>Current Waiting List</h3>
                 {businessInfo[0].waitlist.map(ppl => (
                   <p>{ppl}</p>

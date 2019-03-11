@@ -12,7 +12,9 @@ function handleButtonClick(event) {
 
 const Nav = props => (
       <div className="header">
+      
       <div className="buttons">
+      <p id='greeting'>Hello {props.userInfo.firstname}</p>
           {props.buttons.map(btn => (
               <Link to={btn.link} >
               <button id={btn.name} onClick={handleButtonClick} className={`btn btn-${btn.color} btn-lg`} style={{display: btn.display ? "initial" : "none"}}>{btn.name}</button>

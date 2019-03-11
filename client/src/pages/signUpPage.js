@@ -87,7 +87,7 @@ class signUpPage extends Component {
                 value={email}
                 onChange={this.onChange}
               />
-              <small id="emailHelp" className="form-text text-muted">
+              <small id="emailHelp" className="form-text text-info" >
                 We'll never share your email with anyone else.
               </small>
             </div>

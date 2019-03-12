@@ -17,8 +17,11 @@ const businessSchema = new mongoose.Schema({
     waitlist: {
         type: Array,
         default: []
+    },
+    waitlistUserInfo: {
+        type: Array,
+        default: []
     }
-    
 });
 
 module.exports = mongoose.model('Business', businessSchema, 'Business');

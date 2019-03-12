@@ -3,33 +3,50 @@ import Nav from "../components/Nav/index";
 import buttons from "../components/ButtonLayout/signupBtn.json";
 import { Redirect } from "react-router-dom";
 import api from "../services/api";
+import Modal from "../components/Modal";
 
 class signUpPage extends Component {
   state = {
-    toLoginPage: false,
     firstname: "",
     lastname: "",
     password: "",
     email: "",
+    toLoginPage: false,
+    showModal: false,
+    errorModal: false,
+    errorModalMessage: '',
     buttons
   };
 
-  takenUserOrEmail = (err) => {
-    alert(err.message);
+  takenUserOrEmail = async (err) => await this.setState({errorModal: true, errorModalMessage: err.message})    
+  
+  showModal = async () => {
+    await this.setState({showModal: true})
   }
 
-  onSubmit = event => { //we need this to log the form data to our DB
+  hideModal = async () => {
+    await this.setState({showModal: false})
+    await this.setState({ toLoginPage: true });
+
+  }
+
+  hideErrorModal = async () => {
+    await this.setState({errorModal: false})
+  }
+
+  onSubmit = async event => { //we need this to log the form data to our DB
     event.preventDefault();
     const { firstname, lastname, password, email} = this.state;
-
-    api.call('post', 'auth/register', {
-      firstname: firstname, lastname: lastname, password: password, email: email})
-      .then((results) => (results.id) ? this.setState({ toLoginPage: true }) : console.log('username or email already in use'))
-      .catch((err)=> {
+    try{
+    const results = await api.call('post', 'auth/register', {firstname: firstname, lastname: lastname, password: password, email: email})
+    console.log(results);
+    if (results.id) this.showModal()
+    
+    } catch(err) {
       console.log(err);
-      err.message ="Email already taken.  Please change and try again"
+      err.message ="Email already taken.  Please login to existing account or use a different email address"
       this.takenUserOrEmail(err);
-    });
+    }
   };
 
 
@@ -40,11 +57,25 @@ class signUpPage extends Component {
 
 
   render() {
-    const { toLoginPage, firstname, lastname, password, email, buttons } = this.state;
+    const { toLoginPage, firstname, lastname, password, email, buttons, showModal, errorModal, errorModalMessage } = this.state;
 
     if (toLoginPage) {
-      alert("Account Successfully Created - Please login");
       return <Redirect to='/login' />
+    }
+
+    if(showModal){
+      return  <Modal 
+      show={showModal}
+      onClose={this.hideModal}
+      > Account Created! Please login
+      </Modal>
+    }
+    if(errorModal){
+      return  <Modal 
+      show={errorModal}
+      onClose={this.hideErrorModal}
+      > {errorModalMessage}
+      </Modal>
     }
 
     return (

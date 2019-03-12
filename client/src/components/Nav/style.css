@@ -50,8 +50,8 @@ button:hover {
 
 #greeting {
     color: black;
-    text-align: left;
     display: inline;
+    margin-right: 100px;
   }
 h2 {
   color: #6982a1;

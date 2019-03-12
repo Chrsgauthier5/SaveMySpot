@@ -35,8 +35,9 @@ exports.register = async (req, res, next) => { //async functions will use try/ca
         // if (err.code === 11000){
             console.log(err);
        err.message = 'Sorry, that username or email is already taken';
-    }
        next(err);
+    }
+       
     
 
 };

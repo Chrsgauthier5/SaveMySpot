@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import Nav from "../components/Nav/index";
 import buttons from "../components//ButtonLayout/loginBtn.json";
 import Loading from "../components/Loading";
+import Modal from "../components/Modal";
 import api from "../services/api";
 
 class loginPage extends Component {
@@ -15,6 +16,7 @@ class loginPage extends Component {
     userInfo: null,
     email: "",
     password: "",
+    showModal: false,
     buttons
   };
 
@@ -30,30 +32,37 @@ class loginPage extends Component {
 
   onChange = event => this.setState({ [event.target.name]: event.target.value });
 
-  onSubmit = event => {
+  showModal = () => {
+    this.setState({showModal: true})
+  }
+  hideModal = async () => {
+    await this.setState({showModal: false})
+    await this.setState({ loggedIn: true });
+
+  }
+
+  onSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
-
-    api
-      .call("post", "auth/login", { email, password })
-      .then(results => {
-        console.log(results);
-        api.setToken(results.token);
-        sessionStorage.setItem("token", results.token);
-        sessionStorage.setItem("userInfo", JSON.stringify(results));
-        if (results.token && results.businessUser)
-          this.setState({ bizLoggedIn: true });
-        if (results.token) this.setState({ loggedIn: true });
-      })
-      .catch(err => {
+    try{
+    const results = await api.call("post", "auth/login", { email, password })
+    console.log(results)
+    await api.setToken(results.token);
+    await sessionStorage.setItem("token", results.token);
+    await sessionStorage.setItem("userInfo", JSON.stringify(results));
+    if (results.token && results.businessUser) this.setState({ bizLoggedIn: true });
+    if (results.token) this.showModal();
+        // this.setState({ loggedIn: true });
+    }
+    catch(err) {
         console.log(err);
         err.message = "Invalid Email or Password";
         alert(err.message);
-      });
+      }
   };
-
+  const
   render() {
-    const { alreadyLoggedIn, bizLoggedIn, loggedIn, email, password } = this.state;
+    const { alreadyLoggedIn, bizLoggedIn, loggedIn, email, password, showModal } = this.state;
 
     if(alreadyLoggedIn) return <Redirect to="/user" />;
 
@@ -62,8 +71,14 @@ class loginPage extends Component {
       return <Redirect to="/business" />;
     }
     if (loggedIn) {
-      alert("Login Successful - Redirecting to User Page");
       return <Redirect to="/user" />;
+    }
+    if(showModal){
+      return  <Modal 
+      show={this.state.showModal}
+      onClose={this.hideModal}
+      > Login Successful!
+      </Modal>
     }
 
     if (this.state.isLoaded) {
@@ -72,7 +87,6 @@ class loginPage extends Component {
           <Nav 
           buttons={this.state.buttons} 
           />
-
           <div className="container">
             <h1 className="text-center">Welcome Back to SaveMySpot</h1>
             <form onSubmit={this.onSubmit}>
@@ -108,6 +122,7 @@ class loginPage extends Component {
               </button>
             </form>
           </div>
+          
         </div>
       );
     }

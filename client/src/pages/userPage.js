@@ -28,11 +28,15 @@ class userPage extends Component {
 
     const businessInfo = await api.call("get", "business/showBis");
     await this.setState({ businessInfo: businessInfo });
+    console.log(this.state.businessInfo);
 
     const userDBInfo = await api.call("get", "auth/");
     const filtered = userDBInfo.filter(obj => obj.email === this.state.userInfo.email )
+    console.log(filtered[0].email)
 
-    await this.setState({inLine: filtered[0].inLine, userInfo: filtered[0]});
+    await this.setState({userInfo: filtered[0]});
+
+    (businessInfo[0]['waitlist'].indexOf(filtered[0].email) > -1) ? this.setState({inLine: true}): this.setState({inLine:false})
 
     this.state.jwt && this.state.userInfo
       ? await this.setState({ isLoaded: true })

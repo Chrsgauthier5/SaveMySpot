@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import api from "../services/api";
 import Modal from "../components/Modal";
 
+
 class signUpPage extends Component {
   state = {
     firstname: "",
@@ -13,15 +14,14 @@ class signUpPage extends Component {
     email: "",
     toLoginPage: false,
     showModal: false,
-    errorModal: false,
-    errorModalMessage: '',
+    signUpError: false,
+    signUpErrorMessage: '',
     buttons
   };
-
-  takenUserOrEmail = async (err) => await this.setState({errorModal: true, errorModalMessage: err.message})    
-  
+  // modal navigation / logic below
   showModal = async () => {
     await this.setState({showModal: true})
+    setTimeout(this.hideModal, 2000);
   }
 
   hideModal = async () => {
@@ -30,9 +30,16 @@ class signUpPage extends Component {
 
   }
 
-  hideErrorModal = async () => {
-    await this.setState({errorModal: false})
+  takenUserOrEmail = async (err) => {
+    await this.setState({signUpError: true, signUpErrorMessage: err.message})    
+    setTimeout(this.hideError, 3500);
   }
+
+  hideError = () =>{ // setTimeout function - set for 5 seconds
+    this.setState({signUpError: false});
+  }
+  // modal /error logic above
+
 
   onSubmit = async event => { //we need this to log the form data to our DB
     event.preventDefault();
@@ -49,15 +56,11 @@ class signUpPage extends Component {
     }
   };
 
-
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-
-  }
-
-
+  onChange = event => this.setState({ [event.target.name]: event.target.value });
+  
   render() {
-    const { toLoginPage, firstname, lastname, password, email, buttons, showModal, errorModal, errorModalMessage } = this.state;
+    const { toLoginPage, firstname, lastname, password, email, buttons, 
+      showModal, signUpError, signUpErrorMessage } = this.state;
 
     if (toLoginPage) {
       return <Redirect to='/login' />
@@ -68,13 +71,6 @@ class signUpPage extends Component {
       show={showModal}
       onClose={this.hideModal}
       > Account Created! Please login
-      </Modal>
-    }
-    if(errorModal){
-      return  <Modal 
-      show={errorModal}
-      onClose={this.hideErrorModal}
-      > {errorModalMessage}
       </Modal>
     }
 
@@ -140,11 +136,14 @@ class signUpPage extends Component {
             >
               Submit
             </button>
+            {(signUpError) ? <span className='text-warning' id={signUpError?'fadeIn':'fadeOut'}>{signUpErrorMessage}</span> : null}
           </form>
         </div>
       </div>
     );
   }
 }
+
+
 
 export default signUpPage;

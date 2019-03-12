@@ -6,6 +6,7 @@ import Loading from "../components/Loading";
 import Modal from "../components/Modal";
 import api from "../services/api";
 
+
 class loginPage extends Component {
   state = {
     isLoaded: false,
@@ -17,6 +18,8 @@ class loginPage extends Component {
     email: "",
     password: "",
     showModal: false,
+    loginIncorrect: false,
+    loginErrMsg: '',
     buttons
   };
 
@@ -27,19 +30,10 @@ class loginPage extends Component {
     const userInfo = await sessionStorage.getItem("userInfo");
     this.setState({ userInfo: JSON.parse(userInfo)});
 
-  (this.state.jwt && this.state.userInfo) ? this.setState({alreadyLoggedIn: true}) : this.setState({isLoaded: true});
+  (this.state.jwt && this.state.userInfo) ? this.alreadyLoggedInFunc() : this.setState({isLoaded: true});
   }
 
   onChange = event => this.setState({ [event.target.name]: event.target.value });
-
-  showModal = () => {
-    this.setState({showModal: true})
-  }
-  hideModal = async () => {
-    await this.setState({showModal: false})
-    await this.setState({ loggedIn: true });
-
-  }
 
   onSubmit = async event => {
     event.preventDefault();
@@ -52,19 +46,52 @@ class loginPage extends Component {
     await sessionStorage.setItem("userInfo", JSON.stringify(results));
     if (results.token && results.businessUser) this.setState({ bizLoggedIn: true });
     if (results.token) this.showModal();
-        // this.setState({ loggedIn: true });
     }
+    
     catch(err) {
         console.log(err);
-        err.message = "Invalid Email or Password";
-        alert(err.message);
+        await this.setState({loginErrMsg: "Invalid Email or Password"}); 
+        await this.setState({loginIncorrect: true});
+        setTimeout(this.hideError, 3500);
       }
   };
-  const
-  render() {
-    const { alreadyLoggedIn, bizLoggedIn, loggedIn, email, password, showModal } = this.state;
 
-    if(alreadyLoggedIn) return <Redirect to="/user" />;
+  hideError = () =>{ // setTimeout function - set for 5 seconds
+    this.setState({loginIncorrect: false});
+  }
+
+  showModal = () => {
+    this.setState({showModal: true})
+    setTimeout(this.hideModal, 1500);
+  }
+
+  hideModal = async () => {
+    await this.setState({showModal: false})
+    await this.setState({ loggedIn: true });
+
+  }
+  alreadyLoggedInFunc = () => { //triggers modal when user tries to go to login page & are already logged in
+    this.setState({alreadyLoggedIn: true})
+    setTimeout(this.alreadyLoggedInModal, 1500);
+  }
+
+  alreadyLoggedInModal = () => { // method called when they close the already logged in Modal - redirects to user page
+    this.setState({alreadyLoggedIn: false, loggedIn: true})
+    
+  }
+
+  render() {
+    const { alreadyLoggedIn, bizLoggedIn, loggedIn, email, password, 
+      showModal, loginIncorrect, loginErrMsg} = this.state; //destructure state
+
+    // conditional modals redirects start
+    if(alreadyLoggedIn) { 
+      return  <Modal 
+      show={this.state.alreadyLoggedIn}
+      onClose={this.alreadyLoggedInModal}
+      > You are already logged in - bringing you to home page!
+      </Modal>
+    }
 
     if (bizLoggedIn) {
       alert("Login Successful - Redirecting to Business Page");
@@ -80,6 +107,7 @@ class loginPage extends Component {
       > Login Successful!
       </Modal>
     }
+    // conditional modals / redirects end
 
     if (this.state.isLoaded) {
       return (
@@ -120,6 +148,7 @@ class loginPage extends Component {
               >
                 Login
               </button>
+              {(loginIncorrect) ? <span className='text-warning'>{loginErrMsg}</span> : null}
             </form>
           </div>
           

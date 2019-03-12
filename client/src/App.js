@@ -3,17 +3,32 @@ import { Link } from "react-router-dom";
 import Nav from "./components/Nav/index";
 import { Col, Row, Container } from "./components/Grid/index"; 
 import Jumbotron from "./components/Jumbotron/index";
-import buttons from "./components/ButtonLayout/homeBtn.json";
+import homebuttons from "./components/ButtonLayout/homeBtn.json";
+import homeUserbuttons from "./components/ButtonLayout/homeUserBtn.json";
 
 
 
 class App extends Component {
 
   state = {
-    buttons
+    buttons: homebuttons,
+    userInfo: null
   };
 
+  async componentDidMount() {
+    const jwt = await sessionStorage.getItem("token");
+    this.setState({ jwt: jwt });
 
+    const userInfo = await sessionStorage.getItem("userInfo");
+    this.setState({ userInfo: JSON.parse(userInfo)});
+
+  (this.state.jwt && this.state.userInfo) ? this.setState({buttons: homeUserbuttons}) : this.setState({buttons: homebuttons})
+  }
+
+  changeButtons = async () => {
+    console.log('hello');
+    await this.setState({buttons: homebuttons});
+  }
 
   render() {
     
@@ -21,7 +36,11 @@ class App extends Component {
     return (
       
       <div>
-      <Nav buttons={this.state.buttons}/>
+      <Nav 
+      buttons={this.state.buttons}
+      userInfo={this.state.userInfo}
+      changeButtons={this.changeButtons}
+      />
       <Row>
         <Col size="md-6">
         <Jumbotron>

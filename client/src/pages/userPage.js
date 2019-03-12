@@ -6,7 +6,7 @@ import { Col, Row, Container } from "../components/Grid/index";
 import Jumbotron from "../components/Jumbotron/index";
 import Loading from "../components/Loading";
 import api from "../services/api";
-import { userInfo } from "os";
+
 
 class userPage extends Component {
   state = {
@@ -25,7 +25,7 @@ class userPage extends Component {
 
     const userInfo = await sessionStorage.getItem("userInfo");
     await this.setState({ userInfo: JSON.parse(userInfo) });
-    console.log(this.state.userInfo);
+
     const businessInfo = await api.call("get", "business/showBis");
     await this.setState({ businessInfo: businessInfo });
 
@@ -33,8 +33,6 @@ class userPage extends Component {
     const filtered = userDBInfo.filter(obj => obj.email === this.state.userInfo.email )
 
     await this.setState({inLine: filtered[0].inLine, userInfo: filtered[0]});
-    console.log(this.state.userInfo);
-    // await this.setState({ userInfo: userInfo });
 
     this.state.jwt && this.state.userInfo
       ? await this.setState({ isLoaded: true })
@@ -55,20 +53,13 @@ class userPage extends Component {
       });
       const updatedBusinessInfo = await api.call("get", "business/showBis");
       await this.setState({ businessInfo: updatedBusinessInfo, inLine: true });
-
-      // const toggle = await api.call("put", "auth/toggle", this.state.userInfo); // toggles inLine field or User Collection
-      // if (toggle.toggleUser.nModified) {
-      //   this.setState({ inLine: true });
-      //   this.addWaitlist();
-      // }
     }
   };
+
   stopWaiting = async event => {
     const { businessInfo, userInfo } = this.state;
     const email = userInfo.email;
-    console.log(email);
     const waitlist = await api.call("get", "business/displayWaitList"); //array of current waitlist
-    console.log(waitlist);
     if (waitlist.indexOf(email) === -1) {
       return alert("You aren't on the waitlist");
     } else {
@@ -94,6 +85,10 @@ class userPage extends Component {
     }
   }
 
+  changeButtons = async () => { // do not delete this
+    console.log('hello');
+  }
+
   render() {
     const {
       jwt,
@@ -108,7 +103,11 @@ class userPage extends Component {
     if (loggedIn && isLoaded) {
       return (
         <div>
-          <Nav buttons={buttons} userInfo={userInfo} />
+          <Nav 
+          buttons={buttons} 
+          userInfo={userInfo}
+          changeButtons={this.changeButtons}
+          />
           <Row>
             <Col size="md-6">
               <Jumbotron>

@@ -39,7 +39,7 @@ class userPage extends Component {
 
     await this.setState({ userInfo: filtered[0] });
 
-    businessInfo[0]["waitlist"].indexOf(filtered[0].email) > -1
+    businessInfo[0]["waitlist"].indexOf(this.state.firstNameLastName) > -1
       ? this.setState({ inLine: true })
       : this.setState({ inLine: false });
 

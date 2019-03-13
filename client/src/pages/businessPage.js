@@ -6,6 +6,7 @@ import Nav from "../components/Nav/index";
 import SimpleTable from "../components/Table/index";
 import Loading from "../components/Loading";
 import api from "../services/api";
+import EnhancedTable from "../components/EnhancedTable/EnhancedTable";
 
 class businessPage extends Component {
   state = {
@@ -76,7 +77,8 @@ class businessPage extends Component {
                 {/* <p> Jeff and Chris' code here </p> */}
                 {/* <button className="save">Save My Spot</button> */}
                 {/* <SimpleTable /> */}
-                <SimpleTable busInfo={this.state.businessInfo} />
+                {/* <SimpleTable busInfo={this.state.businessInfo} /> */}
+                <EnhancedTable busInfo={this.state.businessInfo} />
 
 
                 {/* <p> Jeff and Chris' code here </p> */}

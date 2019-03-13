@@ -51,7 +51,7 @@ exports.displayWaitTime = async (req, res, next) => {
 exports.addWaitList = async (req, res, next) => {
     try{
         console.log(req.body)
-        const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlist": req.body.user.email}})
+        const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlist": req.body.user.firstname + " " + req.body.user.lastname}})
         res.json(waitArray);
 
     } catch (err){
@@ -62,7 +62,7 @@ exports.addWaitList = async (req, res, next) => {
 exports.removeWaitList = async (req, res, next) => {
     try{
         console.log(req.body)
-        const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$pull: {waitlist: req.body.user.email}});
+        const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$pull: {"waitlist": req.body.user.firstname + " " + req.body.user.lastname}});
         res.json(waitArray);
 
     } catch (err){

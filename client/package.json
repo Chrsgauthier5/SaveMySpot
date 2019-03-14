@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Mern Demo",
   "private": true,
-  "proxy": "http://localhost:3001/api",
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "react": "^16.8.4",

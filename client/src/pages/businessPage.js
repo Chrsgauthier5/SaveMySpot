@@ -13,6 +13,7 @@ class businessPage extends Component {
     buttons,
     businessInfo: null,
     userInfo: null,
+    busUserInfo: null,
     isLoaded: false
   };
 
@@ -23,36 +24,18 @@ class businessPage extends Component {
     const userInfo = await api.call("get", "auth/");
     await this.setState({ userInfo: userInfo });
 
+    const busUserInfo = await sessionStorage.getItem('userInfo')
+    await this.setState({busUserInfo: JSON.parse(busUserInfo)});
+
+    console.log(this.state.userInfo);
     this.state.businessInfo && this.state.userInfo
       ? this.setState({ isLoaded: true })
       : this.setState({ isLoaded: false });
   }
 
-  // function to add new user to array above
-  // parameter is newUser is taken in
-  addUserFn = newUser => {
-    console.log(newUser);
-    // give new user a unique id
-    newUser.id = Math.random();
-    // make copy of original array - note spread operator ... equates to the three names above
-    let users = [...this.state.users, newUser];
-    this.setState({
-      // original state array gets new array assigned to it
-      users: users
-    });
-  };
-
-  // delete user fn
-  deleteUserFn = id => {
-    console.log(id);
-    // use filter to remove speific varibale
-    let users = this.state.users.filter(user => {
-      // if true below it will be added to new array
-      return user.id !== id;
-    });
-    this.setState({
-      users: users
-    });
+  changeButtons = async () => {
+    // do not delete this
+    console.log("hello");
   };
 
   render() {
@@ -62,7 +45,11 @@ class businessPage extends Component {
     if (this.state.isLoaded) {
       return (
         <div>
-          <Nav buttons={buttons} />
+          <Nav 
+          userInfo={this.state.busUserInfo}
+          buttons={buttons}
+          changeButtons={this.changeButtons}
+           />
           <Row>
             <Col size="md-12">
               <Jumbotron>
@@ -105,3 +92,4 @@ class businessPage extends Component {
 }
 
 export default businessPage;
+

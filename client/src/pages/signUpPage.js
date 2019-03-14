@@ -45,7 +45,7 @@ class signUpPage extends Component {
     event.preventDefault();
     const { firstname, lastname, password, email} = this.state;
     try{
-    const results = await api.call('post', '/api/auth/register', {firstname: firstname, lastname: lastname, password: password, email: email})
+    const results = await api.call('post', 'auth/register', {firstname: firstname, lastname: lastname, password: password, email: email})
     console.log(results);
     if (results.id) this.showModal()
     

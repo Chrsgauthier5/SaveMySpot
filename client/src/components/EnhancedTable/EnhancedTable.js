@@ -20,9 +20,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(name, phonenumber, waiting, eta, notes) {
+function createData(first, last, email) {
   counter += 1;
-  return { id: counter, name, phonenumber, waiting, eta, notes };
+  return { id: counter, first, last, email };
 }
 
 function desc(a, b, orderBy) {
@@ -50,11 +50,9 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'phonenumber', numeric: true, disablePadding: false, label: 'Phone number' },
-  { id: 'waiting', numeric: true, disablePadding: false, label: 'Waiting' },
-  { id: 'eta', numeric: true, disablePadding: false, label: 'ETA' },
-  { id: 'notes', numeric: true, disablePadding: false, label: 'notes' },
+  { id: 'first', numeric: false, disablePadding: true, label: 'First name' },
+  { id: 'last', numeric: false, disablePadding: false, label: 'Last name' },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email Address' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -143,6 +141,10 @@ const toolbarStyles = theme => ({
 let EnhancedTableToolbar = props => {
   const { numSelected, classes } = props;
 
+ function handleDelete(e) {
+    console.log(e.target);
+  }
+
   return (
     <Toolbar
       className={classNames(classes.root, {
@@ -165,7 +167,9 @@ let EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
-              <DeleteIcon />
+              <DeleteIcon 
+              onClick={event => handleDelete(event)}
+              />
             </IconButton>
           </Tooltip>
         ) : (
@@ -205,18 +209,23 @@ class EnhancedTable extends React.Component {
     // order: 'asc',
     // orderBy: 'calories',
     selected: [],
-    data: [
-      createData('Diane S', 6027675834, 25, 5, "always late"),
-      createData('Chris G', 6027675834, 20, 10, "good tipper"),
-      createData('Jeff B', 6027675834, 15, 15, "none"),
-      createData('Phil S', 6027675834, 10, 20, "talks a lot"),
-      createData('Steph S', 6027675834, 5,25, "none"),
-      createData('Cam S', 6027675834, 0, 30, "none"),
-      
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 5,
   };
+
+ async componentDidMount(){
+    const userInfo = this.props.busInfo[0].waitlistUserInfo;
+    console.log(userInfo)
+    const arr = [];
+    await userInfo.map(info => {
+      arr.push(createData(info.firstname, info.lastname, info.email)) 
+  })
+    console.log(arr)
+    await this.setState({data:arr})
+    console.log(this.state.data);
+}
+  
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -237,7 +246,7 @@ class EnhancedTable extends React.Component {
     this.setState({ selected: [] });
   };
 
-  handleClick = (event, id) => {
+  handleClick = async (event, id) => {
     const { selected } = this.state;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -255,7 +264,8 @@ class EnhancedTable extends React.Component {
       );
     }
 
-    this.setState({ selected: newSelected });
+    await this.setState({ selected: newSelected });
+    console.log(this.state.selected);
   };
 
   handleChangePage = (event, page) => {
@@ -267,12 +277,12 @@ class EnhancedTable extends React.Component {
   };
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
-
+  
   render() {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
+    console.log(this.props)
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -305,12 +315,12 @@ class EnhancedTable extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {n.name}
+                        {n.first}
                       </TableCell>
-                      <TableCell align="right">{n.phonenumber}</TableCell>
-                      <TableCell align="right">{n.waiting}</TableCell>
-                      <TableCell align="right">{n.eta}</TableCell>
-                      <TableCell align="right">{n.notes}</TableCell>
+                      <TableCell align="left">{n.last}</TableCell>
+                      <TableCell align="left">{n.email}</TableCell>
+                      {/* <TableCell align="right">{n.email}</TableCell>
+                      <TableCell align="right">{n.notes}</TableCell> */}
                     </TableRow>
                   );
                 })}

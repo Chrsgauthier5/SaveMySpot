@@ -11,7 +11,7 @@ export const setToken = token => {
 
 
 export const call = async (method, path, data) => {
-    const response = await axios[method](`/${path}`, data) // use bracket notation for whatever method is passed (get/post/etc)
+    const response = await axios[method](`/api/${path}`, data) // use bracket notation for whatever method is passed (get/post/etc)
     return response.data
 }
 

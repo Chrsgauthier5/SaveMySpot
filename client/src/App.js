@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Nav from "./components/Nav/index";
 import { Col, Row, Container } from "./components/Grid/index"; 
 import Jumbotron from "./components/Jumbotron/index";
 import homebuttons from "./components/ButtonLayout/homeBtn.json";
 import homeUserbuttons from "./components/ButtonLayout/homeUserBtn.json";
+import homeBusbuttons from "./components/ButtonLayout/homeBusBtn.json";
 
 
 
@@ -22,12 +22,20 @@ class App extends Component {
     const userInfo = await sessionStorage.getItem("userInfo");
     this.setState({ userInfo: JSON.parse(userInfo)});
 
-  (this.state.jwt && this.state.userInfo) ? this.setState({buttons: homeUserbuttons}) : this.setState({buttons: homebuttons})
+  if(this.state.jwt && this.state.userInfo.businessUser){
+    this.setState({buttons: homeBusbuttons}) 
+  } else if (this.state.jwt && this.state.userInfo){
+    this.setState({buttons: homeUserbuttons}) 
   }
+  else{
+    this.setState({buttons: homebuttons})
+  }
+}
 
   changeButtons = async () => {
     console.log('hello');
     await this.setState({buttons: homebuttons});
+    await this.setState({userInfo: null})
   }
 
   render() {

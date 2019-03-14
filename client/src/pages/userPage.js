@@ -51,6 +51,7 @@ class userPage extends Component {
   saveSpot = async event => {
     const { businessInfo, userInfo } = this.state;
     await api.call("put", "auth/toggle", this.state.userInfo);
+    console.log(userInfo);
     const email = userInfo.email;
     const waitlist = await api.call("get", "business/displayWaitList"); //array of current waitlist
     await api.call("put", "business/addWaitList", {

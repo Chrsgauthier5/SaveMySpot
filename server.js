@@ -6,11 +6,11 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const twilio = require('twilio');
+// const twilio = require('twilio');
 
-const accountSid = 'ACfb5a18b4c27c1f25e60837306a798aeb'
-const authToken = '7c2161b3b9bf99c9321943ddde40eb89'
-const client = (accountSid, authToken);
+// const accountSid = 'ACfb5a18b4c27c1f25e60837306a798aeb'
+// const authToken = '7c2161b3b9bf99c9321943ddde40eb89'
+// const client = (accountSid, authToken);
 
 const db = require('./models') // looks in models folder for index.js where we opened DB connection
 const routes = require('./routes');

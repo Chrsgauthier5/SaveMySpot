@@ -4,6 +4,7 @@ const db = require('../models');
 exports.showBis = async (req, res, next) => {
     try{
         const waitingList = await db.Business.find({});
+        console.log(waitingList);
         res.status(200).json(waitingList);
     } catch (err){
         err.status = 400;
@@ -52,6 +53,7 @@ exports.addWaitList = async (req, res, next) => {
     try{
         console.log(req.body)
         const arrUserInfo = {firstname: req.body.user.firstname, lastname: req.body.user.lastname, email: req.body.user.email}
+        console.log(req.body.biz[0].businessName)
         const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlist": req.body.user.firstname + " " + req.body.user.lastname}})
         const waitArrayUserInfo = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlistUserInfo": arrUserInfo}})
         res.json(waitArray);

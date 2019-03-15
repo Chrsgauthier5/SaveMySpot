@@ -29,9 +29,6 @@ exports.displayWaitList = async (req, res, next) => {
     }
 };
 
-
-
-
 exports.displayWaitTime = async (req, res, next) => {
     try{
         // find the single document in the businesses collection
@@ -56,7 +53,7 @@ exports.addWaitList = async (req, res, next) => {
         console.log(req.body.biz[0].businessName)
         const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlist": req.body.user.firstname + " " + req.body.user.lastname}})
         const waitArrayUserInfo = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlistUserInfo": arrUserInfo}})
-        res.json(waitArray);
+        res.json({waitArray, waitArrayUserInfo});
 
     } catch (err){
         err.status = 400;
@@ -69,7 +66,10 @@ exports.removeWaitList = async (req, res, next) => {
         const arrUserInfo = {firstname: req.body.user.firstname, lastname: req.body.user.lastname, email: req.body.user.email}
         const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$pull: {"waitlist": req.body.user.firstname + " " + req.body.user.lastname}});
         const waitArrayUserInfo = await db.Business.update({businessName: req.body.biz[0].businessName}, {$pull: {"waitlistUserInfo": arrUserInfo}});
-        res.json(waitArray);
+        res.json({
+            waitArray,
+            waitArrayUserInfo
+        });
 
     } catch (err){
         err.status = 400;

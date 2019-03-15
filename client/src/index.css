@@ -4,4 +4,8 @@ body {
   font-family: sans-serif;
 }
 
+label {
+  margin-right: 5px;
+}
+
 @import url('https://fonts.googleapis.com/css?family=Permanent+Marker|Righteous|Shadows+Into+Light');

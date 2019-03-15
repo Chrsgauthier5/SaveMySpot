@@ -5,11 +5,15 @@ import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
 import Loading from "../components/Loading";
 import api from "../services/api";
-import AddUser from "../components/AddUser.js";
-import Users from "../components/Users.js";
+import { number } from "prop-types";
+
 
 class businessPage extends Component {
   state = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    number: "",
     buttons,
     businessInfo: null,
     userInfo: null,
@@ -18,40 +22,8 @@ class businessPage extends Component {
     businessName: "",
     numWaiting: 0,
     waitTime: 0,
-    waitlist: [],
-    users: [
-      { username: 'Ivan Lane', useremail: 'ivan@yahoo.com', id: 1 },
-      { username: 'Jane Smith', useremail: 'jane@gmail.com', id: 2 },
-      { username: 'Johh Davis', useremail: 'john@gmail.com', id: 3 }
-    ]
-  };
-
-  // function to add new user to array above
-  // parameter is newUser is taken in
-  addUserFn = (newUser) => {
-    console.log(newUser)
-    // give new user a unique id
-    newUser.id = Math.random();
-    // make copy of original array - note spread operator ... equates to the three names above
-    let users = [...this.state.users, newUser]
-    this.setState({
-      // original state array gets new array assigned to it
-      users: users
-    })
   }
 
-  // delete user fn
-  deleteUserFn = (id) => {
-    console.log(id)
-    // use filter to remove speific varibale
-    let users = this.state.users.filter(user => {
-      // if true below it will be added to new array
-      return user.id !== id
-    });
-    this.setState({
-      users: users
-    })
-  }
 
   async componentDidMount() {
     const businessInfo = await api.call("get", "business/showBis");
@@ -60,13 +32,11 @@ class businessPage extends Component {
     const userInfo = await api.call("get", "auth/");
     await this.setState({ userInfo: userInfo });
 
-    const busUserInfo = await sessionStorage.getItem('userInfo')
-    await this.setState({busUserInfo: JSON.parse(busUserInfo)});
+    const busUserInfo = await sessionStorage.getItem("userInfo");
+    await this.setState({ busUserInfo: JSON.parse(busUserInfo) });
 
-    console.log(this.state.userInfo);
-    this.state.businessInfo && this.state.userInfo
-      ? this.setState({ isLoaded: true })
-      : this.setState({ isLoaded: false });
+    if (this.state.businessInfo && this.state.userInfo) this.setState({ isLoaded: true })
+
   }
 
   changeButtons = async () => {
@@ -74,39 +44,143 @@ class businessPage extends Component {
     console.log("hello");
   };
 
+  deleteUser = async e => {
+    const index = e.target.id;
+    const waitlist = this.state.businessInfo[0].waitlistUserInfo
+    const removeuser = waitlist[index];
+    const response = await api.call("put", "business/removeWaitlist", {
+      user: removeuser,
+      biz: this.state.businessInfo
+    });
+    console.log(response);
+    if (response.waitArrayUserInfo.nModified) {
+      const businessInfo = await api.call("get", "business/showBis");
+      await this.setState({ businessInfo: businessInfo });
+    }
+  };
+
+  addUser = async event => { //we need this to log the form data to our DB
+    event.preventDefault();
+    const { firstname, lastname, email, number} = this.state;
+    try{
+    const results = await api.call('put', 'business/addWaitList', {user: {firstname: firstname, lastname: lastname, number: number, email: email}, biz: this.state.businessInfo})
+    console.log(results);
+    } catch(err) {
+      console.log(err);
+      err.message ="Email already taken.  Please login to existing account or use a different email address"
+      this.takenUserOrEmail(err);
+    }
+  };
+
+
+
+  onChange = event => this.setState({ [event.target.name]: event.target.value });
+
   render() {
-   const {busUserInfo} = this.state;
-    return (
+    const { businessInfo, isLoaded, firstname, lastname, email, number } = this.state;
+    console.log(businessInfo)
+    if (isLoaded) {
+      return (
+        <div>
+          <Nav buttons={buttons} />
+          <Jumbotron>
+            <h2>
+              {" "}
+              Welcome Haircuts by Chris! Here is a list of your customers:
+            </h2>
+            <hr />
+            <Row>
+              <Col size="md-12">
+                <table className="table">
+                  <thead className="thead-dark">
+                    <tr>
+                      <th scope="col">Remove</th>
+                      <th scope="col">#</th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {businessInfo[0].waitlistUserInfo.map(function (user, i) {
+                      return (
+                        <tr>
+                          <td><button className='btn btn-warning' id={i} onClick={this.deleteUser}><i id={i} className="fas fa-trash-alt"></i></button></td>
+                          <td scope="row">{i + 1}</td>
+                          <td>{user.firstname}</td>
+                          <td>{user.lastname}</td>
+                          <td>{user.email}</td>
+                        </tr>
+                      )
+                    }.bind(this))}
+                  </tbody>
+                </table>
+              </Col>
+            </Row>
+            <hr />
+            <Row>
+              <Col size="md-12">
+              <form onSubmit={this.addUser}>
+                <div class="form-check form-check-inline col-md-2.5">
+                  <label for='firstname'>First</label>
+                  <input type="text"
+                  className="form-control"
+                  name="firstname"
+                  placeholder="John"
+                  value={firstname}
+                  onChange={this.onChange} />
 
-      <div>
-        <Nav buttons={buttons} />
-        <Jumbotron>
-          <h2> Welcome Haircuts by Chris! Here is a list of your customers:</h2>
-          <Row>
-            <Col size="md-12">
-              {/* adding userlist display and functiona for business  */}
-              {/* pass the delete org function in below */}
-              {/* pass in the array above below */}
+                </div>
+                <div class="form-check form-check-inline col-md-2.5">
+                  <label for='lastname'>Last</label>
+                  <input 
+                  type="text"
+                  className="form-control"
+                  name="lastname"
+                  placeholder="Doe"
+                  value={lastname}
+                  onChange={this.onChange} />
 
-{/* ======= FIX BELOW ================  */}
+                </div>
+                <div class="form-check form-check-inline col-md-2.5">
+                  <label for='email'>Email </label>
+                  <input 
+                  type="email"
+                  className="form-control"
+                  name="email"
+                  placeholder="JohnDoe@yahoo.com"
+                  value={email}
+                  onChange={this.onChange} />
 
-              {busUserInfo}
-              {/* busUserInfo.map(ppl => (
-                  <p>{ppl}</p>
-                )) */}
-              <Users deleteUserFn={this.deleteUserFn} users={this.state.users} />
-              {/* pass in the function above below */}
-              <AddUser addUserFn={this.addUserFn} />
-
-{/* =======================  */}
-
-            </Col>
-          </Row>
-        </Jumbotron>
-      </div>
-    )
+                </div>
+                <div class="form-check form-check-inline col-md-2.5">
+                  <label for='cell'>Number</label>
+                  <input 
+                type="input"
+                className="form-control"
+                name="number"
+                placeholder="603-568-3995"
+                value={number}
+                onChange={this.onChange} />
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-info"
+                  disabled={!(firstname && lastname && email && number)}
+                  >
+                  Add Customer
+                </button>
+                </form>
+              </Col>
+            </Row>
+          </Jumbotron>
+        </div>
+      );
+    }
+    else {
+      return <Loading />
+    }
   }
 }
 
 export default businessPage;
-

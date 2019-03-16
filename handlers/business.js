@@ -54,7 +54,7 @@ exports.displayWaitTime = async (req, res, next) => {
 exports.addWaitList = async (req, res, next) => {
     try{
         console.log(req.body)
-        const arrUserInfo = {firstname: req.body.user.firstname, lastname: req.body.user.lastname, email: req.body.user.email}
+        const arrUserInfo = {firstname: req.body.user.firstname, lastname: req.body.user.lastname, email: req.body.user.email, number: req.body.user.number}
         console.log(req.body.biz[0].businessName)
         const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlist": req.body.user.firstname + " " + req.body.user.lastname}})
         const waitArrayUserInfo = await db.Business.update({businessName: req.body.biz[0].businessName}, {$push: {"waitlistUserInfo": arrUserInfo}})

@@ -12,6 +12,7 @@ class signUpPage extends Component {
     lastname: "",
     password: "",
     email: "",
+    number: "",
     toLoginPage: false,
     showModal: false,
     signUpError: false,
@@ -43,9 +44,9 @@ class signUpPage extends Component {
 
   onSubmit = async event => { //we need this to log the form data to our DB
     event.preventDefault();
-    const { firstname, lastname, password, email} = this.state;
+    const { firstname, lastname, password, email, number} = this.state;
     try{
-    const results = await api.call('post', 'auth/register', {firstname: firstname, lastname: lastname, password: password, email: email})
+    const results = await api.call('post', 'auth/register', {firstname, lastname, password, email, number})
     console.log(results);
     if (results.id) this.showModal()
     
@@ -59,7 +60,7 @@ class signUpPage extends Component {
   onChange = event => this.setState({ [event.target.name]: event.target.value });
   
   render() {
-    const { toLoginPage, firstname, lastname, password, email, buttons, 
+    const { toLoginPage, firstname, lastname, password, email, number, buttons, 
       showModal, signUpError, signUpErrorMessage } = this.state;
 
     if (toLoginPage) {
@@ -119,6 +120,20 @@ class signUpPage extends Component {
               </small>
             </div>
             <div className="form-group">
+              <label for="number">Cell Number</label>
+              <input
+                type="input"
+                className="form-control"
+                name="number"
+                placeholder="6038675309"
+                value={number}
+                onChange={this.onChange}
+              />
+              <small id="emailHelp" className="form-text text-info" >
+                We'll never share your email with anyone else.
+              </small>
+            </div>
+            <div className="form-group">
               <label for="password">Password</label>
               <input
                 type="password"
@@ -132,7 +147,7 @@ class signUpPage extends Component {
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={!(firstname && lastname && password && email)}
+              disabled={!(firstname && lastname && password && email && number)}
             >
               Submit
             </button>

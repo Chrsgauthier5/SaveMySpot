@@ -17,7 +17,7 @@ exports.getUsers = async (req, res, next) => {
 exports.register = async (req, res, next) => { //async functions will use try/catch
     try {
         const user = await db.User.create(req.body); //creates user from body
-        const { id, email, firstname, lastname, businessUser } = user;
+        const { id, email, firstname, lastname, businessUser, number } = user;
 
 
         const token = jwt.sign({ id, email }, process.env.SECRET); // can set as cookie & have access to it
@@ -29,6 +29,7 @@ exports.register = async (req, res, next) => { //async functions will use try/ca
             firstname,
             lastname,
             businessUser,
+            number,
             token
         });
     } catch (err) {
@@ -47,7 +48,7 @@ exports.login = async (req, res, next) => {
     try {
         const user = await db.User.findOne({ email: req.body.email });
         console.log(user);
-        const { id, email, firstname, lastname, businessUser } = user;
+        const { id, email, firstname, lastname, businessUser, number } = user;
         const valid = await user.comparePassword(req.body.password);// returns Boolean
         console.log(valid);
         if (valid) {  // if valid returned true (passwords matched)
@@ -59,6 +60,7 @@ exports.login = async (req, res, next) => {
                 firstname,
                 lastname,
                 businessUser,
+                number,
                 token
             });
             console.log(id, email, token)

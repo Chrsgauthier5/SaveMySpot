@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         unique: true,
         lowercase: true
     },
+    number: {
+        type: Number,
+        required: true   
+    },
     created: {
         type: Date,
         default: Date.now

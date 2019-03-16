@@ -5,7 +5,7 @@ import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
 import Loading from "../components/Loading";
 import api from "../services/api";
-import { number } from "prop-types";
+
 
 class businessPage extends Component {
   state = {
@@ -145,6 +145,7 @@ class businessPage extends Component {
                       <th scope="col">First</th>
                       <th scope="col">Last</th>
                       <th scope="col">Email</th>
+                      <th scope="col">Number</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -165,6 +166,7 @@ class businessPage extends Component {
                             <td>{user.firstname}</td>
                             <td>{user.lastname}</td>
                             <td>{user.email}</td>
+                            <td>{user.number}</td>
                           </tr>
                         );
                       }.bind(this)
@@ -236,7 +238,7 @@ class businessPage extends Component {
               <Col size="md-12">
               <form onSubmit={this.sendText}>
                   <div class="form-check form-check-inline col-md-5">
-                    <label for="firstname">Recipient Number</label>
+                    <label for="firstname">Number</label>
                     <input
                       type="input"
                       className="form-control"
@@ -247,7 +249,7 @@ class businessPage extends Component {
                     />
                   </div>
                   <div class="form-check form-check-inline col-md-5">
-                    <label for="lastname">Text Message</label>
+                    <label for="lastname">Message</label>
                     <input
                       type="text"
                       className="form-control"
@@ -262,7 +264,7 @@ class businessPage extends Component {
                     className="btn btn-info"
                     disabled={!(recipient && textmessage)}
                   >
-                    Send Text Message
+                    Send Reminder Text
                   </button>
                 </form>
               

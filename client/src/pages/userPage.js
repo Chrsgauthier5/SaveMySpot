@@ -81,8 +81,9 @@ class userPage extends Component {
     } else if (businessInfo[0].waitlist.indexOf(firstNameLastName) === -1) {
       return (
         <p>
-          The current wait time is{" "}
-          {businessInfo[0].waitlist.length * businessInfo[0].waitTime}
+          The current wait time is{" "} 
+          {businessInfo[0].waitlist.length * businessInfo[0].waitTime} 
+          minutes
         </p>
       );
     } else {
@@ -95,6 +96,7 @@ class userPage extends Component {
             Your current wait time is{" "}
             {businessInfo[0].waitlist.indexOf(firstNameLastName) *
               businessInfo[0].waitTime}
+              minutes
           </p>
         );
       }
@@ -153,7 +155,7 @@ class userPage extends Component {
                 ) : (
                   <h2 />
                 )}
-                <h3>Current Waiting List</h3>
+                <h2>Current Waiting List</h2>
                 {businessInfo[0].waitlist.map(ppl => (
                   <p>{ppl}</p>
                 ))}

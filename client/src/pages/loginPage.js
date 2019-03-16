@@ -37,7 +37,6 @@ class loginPage extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    this.setState({email: this.state.email.toLowerCase()})
     const { email, password } = this.state;
     try{
     const results = await api.call("post", "auth/login", { email, password })

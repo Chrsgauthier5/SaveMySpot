@@ -4,6 +4,7 @@ import buttons from "../components/ButtonLayout/signupBtn.json";
 import { Redirect } from "react-router-dom";
 import api from "../services/api";
 import Modal from "../components/Modal";
+import "./signUpPage.css";
 
 
 class signUpPage extends Component {

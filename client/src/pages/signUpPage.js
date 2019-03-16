@@ -130,7 +130,7 @@ class signUpPage extends Component {
                 onChange={this.onChange}
               />
               <small id="emailHelp" className="form-text text-info" >
-                We'll never share your email with anyone else.
+                Number is for reminder texts only
               </small>
             </div>
             <div className="form-group">

@@ -10,5 +10,6 @@ router.get('/displayWaitTime', handle.displayWaitTime);
 router.put('/addWaitList', handle.addWaitList);
 router.put('/removeWaitList', handle.removeWaitList);
 router.post('/updateWaitTime', handle.updateWaitTime);
+router.post('/sendText', handle.sendText);
 
 module.exports = router;

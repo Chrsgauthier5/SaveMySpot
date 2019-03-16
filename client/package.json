@@ -10,7 +10,8 @@
     "react-dom": "^16.8.4",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
-    "react-spinner-material": "^1.0.19"
+    "react-spinner-material": "^1.0.19",
+    "twilio": "^3.29.2"
   },
   "scripts": {
     "start": "react-scripts start",

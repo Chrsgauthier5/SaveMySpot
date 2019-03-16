@@ -1,4 +1,9 @@
 const db = require('../models');
+const twilio = require('twilio');
+const accountSid = process.env.ACCOUNTSID;
+const authToken = process.env.AUTHTOKEN;
+const twilioNumber = process.env.NUMBER
+const client = new twilio(accountSid, authToken); 
 
 // used by Chris in Auth ???
 exports.showBis = async (req, res, next) => {
@@ -66,7 +71,7 @@ exports.removeWaitList = async (req, res, next) => {
         const arrUserInfo = {firstname: req.body.user.firstname, lastname: req.body.user.lastname, email: req.body.user.email}
         const waitArray = await db.Business.update({businessName: req.body.biz[0].businessName}, {$pull: {"waitlist": req.body.user.firstname + " " + req.body.user.lastname}});
         const waitArrayUserInfo = await db.Business.update({businessName: req.body.biz[0].businessName}, {$pull: {"waitlistUserInfo": arrUserInfo}});
-        res.json({
+        res.status(200).json({
             waitArray,
             waitArrayUserInfo
         });
@@ -86,3 +91,20 @@ exports.updateWaitTime = async (req, res, next) => {
         next(err)
     }
 };
+
+exports.sendText = async (req, res, next) => {
+    try{
+        console.log(req.body);
+        res.status(201).json(req.body);
+
+        const text = await client.messages.create({
+            body: req.body.textmessage,
+            to: req.body.recipient,  // Text this number
+            from: twilioNumber   // From a valid Twilio number
+        })
+        console.log(text);
+    } catch (err){
+        err.status = 400;
+        next(err)
+    }
+}

@@ -20,7 +20,9 @@ class businessPage extends Component {
     isLoaded: false,
     businessName: "",
     numWaiting: 0,
-    waitTime: 0
+    waitTime: 0,
+    recipient: '',
+    textmessage: ''
   };
 
   async componentDidMount() {
@@ -90,6 +92,23 @@ class businessPage extends Component {
     }
   };
 
+  sendText = (e) => {
+    e.preventDefault();
+    const {recipient, textmessage} = this.state;
+    try{
+      const sendText = api.call('post', 'business/sendText',{
+        recipient,
+        textmessage
+      });
+      console.log(sendText);
+      this.setState({recipient: '', textmessage: ''});
+    }
+    catch (err){
+      console.log(err);
+      alert(err);
+    }
+  }
+
   onChange = event =>
     this.setState({ [event.target.name]: event.target.value });
 
@@ -100,9 +119,12 @@ class businessPage extends Component {
       firstname,
       lastname,
       email,
-      number
+      number,
+      recipient,
+      textmessage
     } = this.state;
-    console.log(businessInfo);
+
+    
     if (isLoaded) {
       return (
         <div>
@@ -207,6 +229,43 @@ class businessPage extends Component {
                     Add Customer
                   </button>
                 </form>
+              </Col>
+            </Row>
+            <hr />
+            <Row>
+              <Col size="md-12">
+              <form onSubmit={this.sendText}>
+                  <div class="form-check form-check-inline col-md-5">
+                    <label for="firstname">Recipient Number</label>
+                    <input
+                      type="input"
+                      className="form-control"
+                      name="recipient"
+                      placeholder="#"
+                      value={recipient}
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div class="form-check form-check-inline col-md-5">
+                    <label for="lastname">Text Message</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="textmessage"
+                      placeholder="Reminder! Appointment in 5 mins"
+                      value={textmessage}
+                      onChange={this.onChange}
+                    />
+                    </div>
+                    <button
+                    type="submit"
+                    className="btn btn-info"
+                    disabled={!(recipient && textmessage)}
+                  >
+                    Send Text Message
+                  </button>
+                </form>
+              
               </Col>
             </Row>
           </Jumbotron>

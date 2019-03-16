@@ -5,13 +5,14 @@ import Jumbotron from "./components/Jumbotron/index";
 import homebuttons from "./components/ButtonLayout/homeBtn.json";
 import homeUserbuttons from "./components/ButtonLayout/homeUserBtn.json";
 import homeBusbuttons from "./components/ButtonLayout/homeBusBtn.json";
+import Loading from './components/Loading'
 
 
 
 class App extends Component {
 
   state = {
-    buttons: homebuttons,
+    buttons: '',
     userInfo: null
   };
 
@@ -40,7 +41,7 @@ class App extends Component {
 
   render() {
     
-      
+    if(this.state.buttons){  
     return (
       
       <div>
@@ -73,6 +74,9 @@ class App extends Component {
       </Row>
       </div>
     );
+    }else{
+      return <Loading />
+    }
   }
 }
 

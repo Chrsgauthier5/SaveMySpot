@@ -27,7 +27,7 @@ const businesses = [
     businessName: "Chris's Hair Cut Palace",
     numWaiting: 5,
     waitTime: 50,
-    waitlist: ['chris', 'jeff', 'diane', ' mason', 'blake'],
+    waitlist: ['chris gauthier', 'jeff bond', 'diane schiavo'],
     waitlistUserInfo: [
       { firstname: 'chris', lastname: 'gauthier', email: 'chris@gmail.com'},
       { firstname: 'jeff', lastname: 'bond', email: 'jeff@gmail.com'},

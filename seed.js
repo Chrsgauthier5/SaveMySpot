@@ -9,16 +9,16 @@ const db = require('./models');
 
 const users = [
   { firstname: 'chris', lastname: 'gauthier',
- password: 'test', email: 'chris@gmail.com'},
+ password: 'test', email: 'chris@gmail.com', number: 6035683996},
 
   { firstname: 'jeff', lastname: 'bond',
- password: 'test', email: 'jeff@gmail.com'},
+ password: 'test', email: 'jeff@gmail.com', number: 6035683996},
 
   { firstname: 'diane', lastname: 'schiavo',
- password: 'test', email: 'diane@gmail.com'},
+ password: 'test', email: 'diane@gmail.com', number: 6035683996},
 
   { firstname: 'admin', lastname: 'admin',
- password: 'test', email: 'admin@gmail.com', businessUser: true}
+ password: 'test', email: 'admin@gmail.com', businessUser: true, number: 6031111111}
   
 ];
 
@@ -29,9 +29,9 @@ const businesses = [
     waitTime: 50,
     waitlist: ['chris gauthier', 'jeff bond', 'diane schiavo'],
     waitlistUserInfo: [
-      { firstname: 'chris', lastname: 'gauthier', email: 'chris@gmail.com'},
-      { firstname: 'jeff', lastname: 'bond', email: 'jeff@gmail.com'},
-      { firstname: 'diane', lastname: 'schiavo', email: 'diane@gmail.com'}
+      { firstname: 'chris', lastname: 'gauthier', email: 'chris@gmail.com', number: 6035683996},
+      { firstname: 'jeff', lastname: 'bond', email: 'jeff@gmail.com',  number: 6036036033},
+      { firstname: 'diane', lastname: 'schiavo', email: 'diane@gmail.com',  number: 6031111111}
     ]
   }
 ];

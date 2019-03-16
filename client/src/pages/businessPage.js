@@ -148,7 +148,9 @@ class businessPage extends Component {
                       <th scope="col">Number</th>
                     </tr>
                   </thead>
+
                   <tbody>
+
                     {businessInfo[0].waitlistUserInfo.map(
                       function(user, i) {
                         return (
@@ -162,16 +164,18 @@ class businessPage extends Component {
                                 <i id={i} className="fas fa-trash-alt" />
                               </button>
                             </td>
-                            <td scope="row">{i + 1}</td>
-                            <td>{user.firstname}</td>
-                            <td>{user.lastname}</td>
-                            <td>{user.email}</td>
-                            <td>{user.number}</td>
+                            <td scope="row" className="align-middle">{i + 1}</td>
+                            <td className="align-middle">{user.firstname}</td>
+                            <td className="align-middle">{user.lastname}</td>
+                            <td className="align-middle">{user.email}</td>
+                            <td className="align-middle">{user.number}</td>
                           </tr>
                         );
                       }.bind(this)
                     )}
+
                   </tbody>
+
                 </table>
               </Col>
             </Row>

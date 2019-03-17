@@ -41,4 +41,4 @@ In order to set this up you will need to do the following:
 * go to /client and run npm start 
 
 ## Team
-Save-My-Spot was designed and developed by Chris Gauthier, Diane Schiavo, and Jeff Bond for UNH/Trilogy Education Project 3.
+Save-My-Spot was designed and developed by Chris Gauthier, Diane Schiavo, and Jeff Bond for UNH/Trilogy Education Full Stack Web Developer Boot Camp Project 3.

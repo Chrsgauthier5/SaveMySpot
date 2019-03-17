@@ -82,7 +82,7 @@ class userPage extends Component {
       return (
         <p>
           The current wait time is{" "} 
-          {businessInfo[0].waitlist.length * businessInfo[0].waitTime} 
+          {businessInfo[0].waitlist.length * businessInfo[0].waitTime} {" "}
           minutes
         </p>
       );
@@ -95,7 +95,7 @@ class userPage extends Component {
           <p>
             Your current wait time is{" "}
             {businessInfo[0].waitlist.indexOf(firstNameLastName) *
-              businessInfo[0].waitTime}
+              businessInfo[0].waitTime}{" "}
               minutes
           </p>
         );

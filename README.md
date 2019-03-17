@@ -1,8 +1,6 @@
 # Save My Spot
 Save-My-Spot, is an easy to use QMA (Queue Management Application) that streamlines waitlists for first come first serve organizations and their customers. Organizations like the Department of Motor Vehicles or even your local Barber Shop can easily allow customers to remotely see current wait times and save their spot in line. 
 
-Save-My-Spoy was designed and developed by Chris Gauthier, Diane Schiavo, and Jeff Bond.
-
 ## MVP Features
 - Customers can sign up, login, save their spot in line, see estimated wait times, and remove themselves from a queue
 - Organizations can add and remove customers from the queue and text specific customers 
@@ -35,12 +33,12 @@ In order to set this up you will need to do the following:
 4. Set up your own .env file in the root directory
 5. In your .env file add SECRET="ANYTHING"
 6. Sign up for your own twilio account and add the following to your .env file
-6a.    ACCOUNTSID='your acct id'
-6b.    AUTHTOKEN = 'your token'
-6c.    NUMBER='your phone number'
+* ACCOUNTSID='your acct id'
+* AUTHTOKEN = 'your token'
+* NUMBER='your phone number'
 7. In order to run the application use the following
-7a.     go to the root and run node server.js
-7b.     go to /client and run npm start 
+* go to the root and run node server.js
+* go to /client and run npm start 
 
 ## Team
-Save-My-Spoy was designed and developed by Chris Gauthier, Diane Schiavo, and Jeff Bond for UNH/Trilogy Education Project 3.
+Save-My-Spot was designed and developed by Chris Gauthier, Diane Schiavo, and Jeff Bond for UNH/Trilogy Education Project 3.

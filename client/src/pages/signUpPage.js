@@ -5,6 +5,11 @@ import { Redirect } from "react-router-dom";
 import api from "../services/api";
 import Modal from "../components/Modal";
 import "./signUpPage.css";
+import Tooltip from '@material-ui/core/Tooltip';
+
+const pStyle = {
+  color: 'red'
+};
 
 
 class signUpPage extends Component {
@@ -107,6 +112,7 @@ class signUpPage extends Component {
             </div>
             <div className="form-group">
               <label for="email">Email address</label>
+              <Tooltip title="We will never share your email with anyone else" placement="top">
               <input
                 type="email"
                 className="form-control"
@@ -116,12 +122,14 @@ class signUpPage extends Component {
                 value={email}
                 onChange={this.onChange}
               />
-              <small id="emailHelp" className="form-text text-info" >
-                We'll never share your email with anyone else.
-              </small>
+              </Tooltip>
+              {/* <small style={pStyle} id="emailHelp" className="form-text text-info" >
+                We will never share your email with anyone else.
+              </small> */}
             </div>
             <div className="form-group">
               <label for="number">Cell Number</label>
+              <Tooltip title="Number is for reminder texts only" placement="top">
               <input
                 type="input"
                 className="form-control"
@@ -130,9 +138,10 @@ class signUpPage extends Component {
                 value={number}
                 onChange={this.onChange}
               />
-              <small id="emailHelp" className="form-text text-info" >
+              </Tooltip>
+              {/* <small id="emailHelp" className="form-text text-info"   >
                 Number is for reminder texts only
-              </small>
+              </small> */}
             </div>
             <div className="form-group">
               <label for="password">Password</label>

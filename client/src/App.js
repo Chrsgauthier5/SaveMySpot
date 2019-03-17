@@ -6,6 +6,7 @@ import homebuttons from "./components/ButtonLayout/homeBtn.json";
 import homeUserbuttons from "./components/ButtonLayout/homeUserBtn.json";
 import homeBusbuttons from "./components/ButtonLayout/homeBusBtn.json";
 import Loading from './components/Loading'
+import SimpleCard from "./components/SimpleCard/SimpleCard";
 
 
 
@@ -51,23 +52,24 @@ class App extends Component {
       changeButtons={this.changeButtons}
       />
       <Row>
-        <Col size="md-6">
+        <Col size="md-12">
         <Jumbotron>
         <h2> Welcome to Save My Spot!</h2>
-        <p> Is your To-Do list a mile long? Do you hate waiting in line when
-          you know you have a million other things you need to do?  Check the wait 
-          on your local business and sign into
-          Save My Spot to save your place in line!
+        <p> Is your To Do list a mile long? Do you hate to waste time standing in line when
+          there are other things that need your attention? Save My Spot can help you make
+          more productive use of your time in 3 easy steps!
         </p>
+        <br/>
+
+        <SimpleCard/>
         </Jumbotron>
         </Col>
-        <Col size="md-6">
+        <Col size="md-12">
         <Jumbotron>
         <h2>Business Owners </h2>
         <p> Keep your customers and your employees happy by using Save My Spot! Customers will 
           no longer have to wait in line for your excellent services and your employees can space 
-          out their customers better. This is good for:
-          Auto Service, barbers, nail salons, etc... 
+          out their customers better. 
         </p>
         </Jumbotron>
         </Col>

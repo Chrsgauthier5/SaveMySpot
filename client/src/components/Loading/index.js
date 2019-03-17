@@ -9,7 +9,7 @@ const Loader = props => {
       <br />
         <Spinner
           size={120}
-          spinnerColor={"#333"}
+          spinnerColor={"white"}
           spinnerWidth={2}
           visible={true}
         />

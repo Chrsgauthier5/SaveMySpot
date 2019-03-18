@@ -23,7 +23,9 @@ class businessPage extends Component {
     numWaiting: 0,
     waitTime: 0,
     recipient: '',
-    textmessage: ''
+    textmessage: '',
+    textSendSuccess: false,
+    feedback: false
   };
 
   async componentDidMount() {
@@ -93,21 +95,26 @@ class businessPage extends Component {
     }
   };
 
-  sendText = (e) => {
+  sendText = async (e) => {
     e.preventDefault();
     const { recipient, textmessage } = this.state;
     try {
-      const sendText = api.call('post', 'business/sendText', {
+    const sendText = await api.call('post', 'business/sendText', {
         recipient,
         textmessage
       });
-      console.log(sendText);
+      if(sendText.dateCreated) this.setState({textSendSuccess: true, feedback: true})
       this.setState({ recipient: '', textmessage: '' });
+      setTimeout(this.hideTextSuccess, 5000);
     }
     catch (err) {
       console.log(err);
       alert(err);
     }
+  }
+
+  hideTextSuccess = () =>{
+    this.setState({textSendSuccess: false, feedback: false})
   }
 
   onChange = event =>
@@ -127,7 +134,9 @@ class businessPage extends Component {
       email,
       number,
       recipient,
-      textmessage
+      textmessage,
+      textSendSuccess,
+      feedback
     } = this.state;
 
 
@@ -279,6 +288,9 @@ class businessPage extends Component {
                   >
                     Send Reminder Text
                   </button>
+                  
+                  {(textSendSuccess) ? <span className='text-success' style={{display: (feedback) ? "inline" : "none"}}>Text Message Sent Succesfully</span> : <span className='text-danger' style={{display: (feedback) ? "inline" : "none"}}>Error Sending Text - checking #</span>}
+                      
                 </form>
 
               </Col>

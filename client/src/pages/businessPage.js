@@ -299,7 +299,7 @@ class businessPage extends Component {
                       type="text"
                       className="form-control"
                       name="textmessage"
-                      placeholder="Reminder! Appointment in 5 mins"
+                      placeholder="Reminder!"
                       value={textmessage}
                       onChange={this.onChange}
                     />

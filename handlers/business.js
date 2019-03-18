@@ -94,15 +94,13 @@ exports.updateWaitTime = async (req, res, next) => {
 
 exports.sendText = async (req, res, next) => {
     try{
-        console.log(req.body);
-        res.status(201).json(req.body);
-
         const text = await client.messages.create({
             body: req.body.textmessage,
             to: req.body.recipient,  // Text this number
             from: twilioNumber   // From a valid Twilio number
         })
         console.log(text);
+        res.status(201).json(text);
     } catch (err){
         err.status = 400;
         next(err)

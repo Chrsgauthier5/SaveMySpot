@@ -82,10 +82,10 @@ exports.removeWaitList = async (req, res, next) => {
     }
 };
 
-exports.updateWaitTime = async (req, res, next) => {
+exports.changeWait = async (req, res, next) => {
     try{
-        // const waitingList = await db.Business.find({});
-        // res.status(200).json(waitingList);
+        const changeWait = await db.Business.update({businessName: req.body.businessInfo[0].businessName}, { $set: { "waitTime": req.body.waitTime}})
+        res.status(200).json(changeWait);
     } catch (err){
         err.status = 400;
         next(err)
@@ -103,6 +103,7 @@ exports.sendText = async (req, res, next) => {
         res.status(201).json(text);
     } catch (err){
         err.status = 400;
-        next(err)
+        res.status(400).json(err)
     }
 }
+

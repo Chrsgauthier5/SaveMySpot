@@ -5,6 +5,7 @@ import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
 import Loading from "../components/Loading";
 import api from "../services/api";
+import "./businessPage.css";
 
 
 class businessPage extends Component {
@@ -83,7 +84,7 @@ class businessPage extends Component {
       if (response.waitArrayUserInfo.nModified) {
         const businessInfo = await api.call("get", "business/showBis");
         await this.setState({ businessInfo: businessInfo });
-        await this.setState({firstname: '', lastname: '', email: '', number: ''})
+        await this.setState({ firstname: '', lastname: '', email: '', number: '' })
       }
     } catch (err) {
       console.log(err);
@@ -94,16 +95,16 @@ class businessPage extends Component {
 
   sendText = (e) => {
     e.preventDefault();
-    const {recipient, textmessage} = this.state;
-    try{
-      const sendText = api.call('post', 'business/sendText',{
+    const { recipient, textmessage } = this.state;
+    try {
+      const sendText = api.call('post', 'business/sendText', {
         recipient,
         textmessage
       });
       console.log(sendText);
-      this.setState({recipient: '', textmessage: ''});
+      this.setState({ recipient: '', textmessage: '' });
     }
-    catch (err){
+    catch (err) {
       console.log(err);
       alert(err);
     }
@@ -111,6 +112,11 @@ class businessPage extends Component {
 
   onChange = event =>
     this.setState({ [event.target.name]: event.target.value });
+
+  changeButtons = async () => {
+    // do not delete this
+    console.log("hello");
+  };
 
   render() {
     const {
@@ -124,11 +130,14 @@ class businessPage extends Component {
       textmessage
     } = this.state;
 
-    
+
     if (isLoaded) {
       return (
         <div>
-          <Nav buttons={buttons} />
+          <Nav 
+          buttons={buttons} 
+          changeButtons={this.changeButtons}
+          />
           <Jumbotron>
             <h2>
               {" "}
@@ -152,7 +161,7 @@ class businessPage extends Component {
                   <tbody>
 
                     {businessInfo[0].waitlistUserInfo.map(
-                      function(user, i) {
+                      function (user, i) {
                         return (
                           <tr>
                             <td>
@@ -240,7 +249,7 @@ class businessPage extends Component {
             <hr />
             <Row>
               <Col size="md-12">
-              <form onSubmit={this.sendText}>
+                <form onSubmit={this.sendText}>
                   <div class="form-check form-check-inline col-md-5">
                     <label for="firstname">Number</label>
                     <input
@@ -262,8 +271,8 @@ class businessPage extends Component {
                       value={textmessage}
                       onChange={this.onChange}
                     />
-                    </div>
-                    <button
+                  </div>
+                  <button
                     type="submit"
                     className="btn btn-info"
                     disabled={!(recipient && textmessage)}
@@ -271,7 +280,7 @@ class businessPage extends Component {
                     Send Reminder Text
                   </button>
                 </form>
-              
+
               </Col>
             </Row>
           </Jumbotron>

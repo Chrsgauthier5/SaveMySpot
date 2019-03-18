@@ -10,7 +10,7 @@ import api from "../services/api";
 class loginPage extends Component {
   state = {
     isLoaded: false,
-    alreadyLoggedIn: false,
+    loggedInBiz:false,
     loggedIn: false,
     bizLoggedIn: false,
     jwt: null,
@@ -67,9 +67,15 @@ class loginPage extends Component {
 
   hideModal = async () => {
     await this.setState({showModal: false})
+    if (this.state.bizLoggedIn){
+      await this.setState({bizLoggedIn: false});
+      await this.setState({loggedInBiz: true});
+    }
+    else{
     await this.setState({ loggedIn: true });
-
+    }
   }
+
   alreadyLoggedInFunc = () => { //triggers modal when user tries to go to login page & are already logged in
     this.setState({alreadyLoggedIn: true})
     setTimeout(this.alreadyLoggedInModal, 1500);
@@ -81,24 +87,23 @@ class loginPage extends Component {
   }
 
   render() {
-    const { alreadyLoggedIn, bizLoggedIn, loggedIn, email, password, 
-      showModal, loginIncorrect, loginErrMsg} = this.state; //destructure state
+    const {bizLoggedIn, loggedIn, email, password, 
+      showModal, loginIncorrect, loginErrMsg, loggedInBiz} = this.state; //destructure state
 
     // conditional modals redirects start
-    if(alreadyLoggedIn) { 
-      return  <Modal 
-      show={this.state.alreadyLoggedIn}
-      onClose={this.alreadyLoggedInModal}
-      > You are already logged in - bringing you to home page!
-      </Modal>
-    }
 
     if (bizLoggedIn) {
-      alert("Login Successful - Redirecting to Business Page");
-      return <Redirect to="/business" />;
+      return  <Modal 
+      show={this.state.showModal}
+      onClose={this.hideModal}
+      > Business Login Successfull
+      </Modal>
     }
     if (loggedIn) {
       return <Redirect to="/user" />;
+    }
+    if (loggedInBiz) {
+      return <Redirect to="/business" />;
     }
     if(showModal){
       return  <Modal 

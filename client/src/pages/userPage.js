@@ -6,6 +6,7 @@ import { Col, Row, Container } from "../components/Grid/index";
 import Jumbotron from "../components/Jumbotron/index";
 import Loading from "../components/Loading";
 import api from "../services/api";
+import "./userPage.css";
 
 class userPage extends Component {
   state = {

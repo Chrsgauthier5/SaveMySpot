@@ -21,11 +21,11 @@ class businessPage extends Component {
     isLoaded: false,
     businessName: "",
     numWaiting: 0,
-    waitTime: 0,
+    waitTime: null,
     recipient: '',
     textmessage: '',
     textSendSuccess: false,
-    feedback: false
+    textSendFailure: false
   };
 
   async componentDidMount() {
@@ -99,22 +99,23 @@ class businessPage extends Component {
     e.preventDefault();
     const { recipient, textmessage } = this.state;
     try {
-    const sendText = await api.call('post', 'business/sendText', {
+      const sendText = await api.call('post', 'business/sendText', {
         recipient,
         textmessage
       });
-      if(sendText.dateCreated) this.setState({textSendSuccess: true, feedback: true})
+      if (sendText.dateCreated) this.setState({ textSendSuccess: true })
       this.setState({ recipient: '', textmessage: '' });
-      setTimeout(this.hideTextSuccess, 5000);
+      setTimeout(this.hideFeedback, 5000);
     }
     catch (err) {
       console.log(err);
-      alert(err);
+      this.setState({ textSendFailure: true });
+      setTimeout(this.hideFeedback, 5000);
     }
   }
 
-  hideTextSuccess = () =>{
-    this.setState({textSendSuccess: false, feedback: false})
+  hideFeedback = () => {
+    this.setState({ textSendSuccess: false, textSendFailure: false })
   }
 
   onChange = event =>
@@ -124,6 +125,23 @@ class businessPage extends Component {
     // do not delete this
     console.log("hello");
   };
+
+  changeWaitTime = async e => {
+    e.preventDefault();
+    const {waitTime, businessInfo} = this.state;
+    try{
+      const changeWait = await api.call('put', 'business/changeWait', {
+        waitTime,
+        businessInfo
+      })
+      console.log(changeWait);
+      const updatedbusinessInfo = await api.call("get", "business/showBis");
+      await this.setState({ businessInfo: updatedbusinessInfo, waitTime: null });
+    }
+    catch (err){
+      console.log(err)
+    }
+  }
 
   render() {
     const {
@@ -136,16 +154,17 @@ class businessPage extends Component {
       recipient,
       textmessage,
       textSendSuccess,
-      feedback
+      textSendFailure,
+      waitTime
     } = this.state;
-
+    console.log(businessInfo);
 
     if (isLoaded) {
       return (
         <div>
-          <Nav 
-          buttons={buttons} 
-          changeButtons={this.changeButtons}
+          <Nav
+            buttons={buttons}
+            changeButtons={this.changeButtons}
           />
           <Jumbotron>
             <h2>
@@ -197,7 +216,9 @@ class businessPage extends Component {
                 </table>
               </Col>
             </Row>
-            <hr />
+          </Jumbotron>
+
+          <Jumbotron>
             <Row>
               <Col size="md-12">
                 <form onSubmit={this.addUser}>
@@ -253,14 +274,16 @@ class businessPage extends Component {
                     Add Customer
                   </button>
                 </form>
+
               </Col>
             </Row>
-            <hr />
-            <Row>
-              <Col size="md-12">
+          </Jumbotron>
+          <Row>
+            <Col size="md-6">
+              <Jumbotron>
                 <form onSubmit={this.sendText}>
                   <div class="form-check form-check-inline col-md-5">
-                    <label for="firstname">Number</label>
+                    <label for="recipient">Number</label>
                     <input
                       type="input"
                       className="form-control"
@@ -271,7 +294,7 @@ class businessPage extends Component {
                     />
                   </div>
                   <div class="form-check form-check-inline col-md-5">
-                    <label for="lastname">Message</label>
+                    <label for="textmessage">Message</label>
                     <input
                       type="text"
                       className="form-control"
@@ -288,14 +311,34 @@ class businessPage extends Component {
                   >
                     Send Reminder Text
                   </button>
-                  
-                  {(textSendSuccess) ? <span className='text-success' style={{display: (feedback) ? "inline" : "none"}}>Text Message Sent Succesfully</span> : <span className='text-danger' style={{display: (feedback) ? "inline" : "none"}}>Error Sending Text - checking #</span>}
-                      
+                  {(textSendSuccess) ? <span className='text-success'>Text Message Sent Succesfully</span> : null}
+                  {(textSendFailure) ? <span className='text-danger'>Error Sending Text - check #</span> : null}
                 </form>
-
-              </Col>
-            </Row>
-          </Jumbotron>
+              </Jumbotron>
+            </Col>
+            <Col size="md-6">
+              <Jumbotron>
+                <h4>Current Customer Wait Time: {businessInfo[0].waitTime * businessInfo[0].waitlist.length} minutes</h4>
+                <h6>Average wait time set at: {businessInfo[0].waitTime} minutes</h6>
+                <div>
+                  <form onSubmit={this.changeWaitTime}>
+                    <label>Change average wait time</label>
+                    <input
+                      type='number'
+                      name='waitTime'
+                      placeholder='15'
+                      value={waitTime}
+                      onChange={this.onChange}
+                    />
+                    <button
+                    type='submit'
+                    className='btn btn-info'
+                    >Update</button>
+                  </form>
+                </div>
+              </Jumbotron>
+            </Col>
+          </Row>
         </div>
       );
     } else {

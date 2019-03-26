@@ -50,6 +50,7 @@ class App extends Component {
       buttons={this.state.buttons}
       userInfo={this.state.userInfo}
       changeButtons={this.changeButtons}
+      page='App'
       />
       <Row>
         <Col size="md-12">

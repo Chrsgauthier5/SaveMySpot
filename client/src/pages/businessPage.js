@@ -5,6 +5,7 @@ import Jumbotron from "../components/Jumbotron/index";
 import Nav from "../components/Nav/index";
 import Loading from "../components/Loading";
 import api from "../services/api";
+
 import "./businessPage.css";
 
 
@@ -46,6 +47,14 @@ class businessPage extends Component {
     // do not delete this
     console.log("hello");
   };
+
+  sendDefaultText = async e => {
+    const id = e.target.id
+    const user = this.state.businessInfo[0].waitlistUserInfo[id]
+    await this.setState({recipient: user.number, textmessage: 'Reminder! Appointment is in 5 minutes'})
+    await this.sendText(e)
+    
+  }
 
   deleteUser = async e => {
     try {
@@ -94,6 +103,8 @@ class businessPage extends Component {
       alert(err.message);
     }
   };
+
+
 
   sendText = async (e) => {
     e.preventDefault();
@@ -183,6 +194,7 @@ class businessPage extends Component {
                       <th scope="col">Last</th>
                       <th scope="col">Email</th>
                       <th scope="col">Number</th>
+                      <th scope="col">Send Text</th>
                     </tr>
                   </thead>
 
@@ -206,6 +218,15 @@ class businessPage extends Component {
                             <td className="align-middle">{user.lastname}</td>
                             <td className="align-middle">{user.email}</td>
                             <td className="align-middle">{user.number}</td>
+                            <td>
+                              <button
+                                className="btn btn-success"
+                                id={i}
+                                onClick={this.sendDefaultText}
+                              >
+                                <i id={i} className="fas fa-envelope" />
+                              </button>
+                            </td>
                           </tr>
                         );
                       }.bind(this)
